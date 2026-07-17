@@ -6,7 +6,7 @@ import os from 'os';
 import crypto from 'crypto';
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..');
-const CLI_DIST = path.join(PACKAGE_ROOT, 'dist', 'bin', 'cineforge.js');
+const CLI_DIST = path.join(PACKAGE_ROOT, 'dist', 'bin', 'rabto.js');
 const REPO_ROOT = path.resolve(PACKAGE_ROOT, '../..');
 
 if (!fs.existsSync(path.join(REPO_ROOT, 'skills'))) {
@@ -18,7 +18,7 @@ function cli(args: string[], extraEnv: Record<string, string> = {}, cwd?: string
     encoding: 'utf8',
     env: {
       ...process.env,
-      CINEFORGE_ROOT: REPO_ROOT,
+      RABTO_ROOT: REPO_ROOT,
       ...extraEnv,
     },
     cwd: cwd || process.cwd(),
@@ -26,13 +26,13 @@ function cli(args: string[], extraEnv: Record<string, string> = {}, cwd?: string
 }
 
 function createTempWorkspace(): string {
-  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-test-ws-'));
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-test-ws-'));
   fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: "mock-ws" }));
   return tmpDir;
 }
 
 function createTempRemoteRepo(): string {
-  const tmpRepo = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-remote-repo-'));
+  const tmpRepo = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-remote-repo-'));
   
   // Initialize git
   spawnSync('git', ['init'], { cwd: tmpRepo });
@@ -98,7 +98,7 @@ describe('CLI Integration Tests (real temp directories)', () => {
     const remoteRepo = createTempRemoteRepo();
     
     // We install from the current REPO_ROOT
-    cli(['install', '--skills', 'threejs-foundations', '--target', 'antigravity'], { CINEFORGE_ROOT: remoteRepo }, tmpDir);
+    cli(['install', '--skills', 'threejs-foundations', '--target', 'antigravity'], { RABTO_ROOT: remoteRepo }, tmpDir);
     
     // Now we update the remote repo to simulate upstream changes
     const targetSkill = path.join(remoteRepo, 'skills', 'threejs-foundations');
@@ -123,13 +123,13 @@ describe('CLI Integration Tests (real temp directories)', () => {
     
     // Run update pointing to our remote repo
     const r = cli(['update', '--target', 'antigravity'], {
-      CINEFORGE_REMOTE_REPO: `file://${remoteRepo.replace(/\\/g, '/')}`
+      RABTO_REMOTE_REPO: `file://${remoteRepo.replace(/\\/g, '/')}`
     }, tmpDir);
     
     if (r.status !== 0) console.error("UPDATE ERROR:", r.stderr, r.stdout);
     expect(r.status).toBe(0);
     
-    const manifestPath = path.join(tmpDir, '.agents', 'skills', '.cineforge-manifest.json');
+    const manifestPath = path.join(tmpDir, '.agents', 'skills', '.rabto-manifest.json');
     const manifestNew = fs.readJsonSync(manifestPath);
     expect(manifestNew.installed['threejs-foundations'].installedSourceHash).toBe(newHash);
   });
@@ -137,7 +137,7 @@ describe('CLI Integration Tests (real temp directories)', () => {
   it('update handles HTTP/git failure gracefully (offline test)', () => {
     cli(['install', '--skills', 'threejs-foundations'], {}, tmpDir);
     const r = cli(['update'], {
-      CINEFORGE_REMOTE_REPO: 'https://invalid.github.url.that.does.not.exist/repo.git'
+      RABTO_REMOTE_REPO: 'https://invalid.github.url.that.does.not.exist/repo.git'
     }, tmpDir);
     expect(r.status).not.toBe(0);
     expect(r.stderr).toContain('Could not fetch');

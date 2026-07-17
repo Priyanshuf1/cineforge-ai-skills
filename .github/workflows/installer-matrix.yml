@@ -25,22 +25,22 @@ jobs:
       - name: Run Installer (Linux/macOS)
         if: runner.os != 'Windows'
         env:
-          CINEFORGE_SOURCE_DIR: ${{ github.workspace }}
+          RABTO_SOURCE_DIR: ${{ github.workspace }}
         run: |
           chmod +x installers/install.sh
           ./installers/install.sh
           export PATH="$HOME/.local/bin:$PATH"
-          cineforge --version
+          rabto --version
           
       - name: Run Installer (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         env:
-          CINEFORGE_SOURCE_DIR: ${{ github.workspace }}
+          RABTO_SOURCE_DIR: ${{ github.workspace }}
         run: |
           ./installers/install.ps1
           $env:PATH += ";$env:USERPROFILE\.local\bin"
-          cineforge.cmd --version
+          rabto.cmd --version
 
       - name: Run Uninstaller (Linux/macOS)
         if: runner.os != 'Windows'

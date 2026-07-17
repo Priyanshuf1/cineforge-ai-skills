@@ -1,9 +1,9 @@
 {
-  "name": "@cineforge/cli",
+  "name": "@rabto/cli",
   "version": "0.1.0",
-  "description": "CineForge AI Skills CLI",
+  "description": "Rabto AI Skills CLI",
   "bin": {
-    "cineforge": "./dist/bin/cineforge.js"
+    "rabto": "./dist/bin/rabto.js"
   },
   "scripts": {
     "build": "tsc",

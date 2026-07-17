@@ -1,4 +1,4 @@
-# CineForge AI Skills — Final Audit Blocker Resolution Requirements
+# Rabto AI Skills — Final Audit Blocker Resolution Requirements
 
 > [!IMPORTANT]
 > Items are only marked PASS when automated evidence (commit SHA, test run output) exists. Items lacking current evidence are marked FAIL or NOT VERIFIED according to strict audit constraints.
@@ -22,11 +22,11 @@
 
 | ID | Requirement | Status | Evidence |
 |---|---|---|---|
-| I-01 | `install.sh` accepts `CINEFORGE_SOURCE_DIR` | PASS | Implemented in `installers/install.sh`. |
-| I-02 | `install.ps1` accepts `CINEFORGE_SOURCE_DIR` | PASS | Implemented in `installers/install.ps1`. |
+| I-01 | `install.sh` accepts `RABTO_SOURCE_DIR` | PASS | Implemented in `installers/install.sh`. |
+| I-02 | `install.ps1` accepts `RABTO_SOURCE_DIR` | PASS | Implemented in `installers/install.ps1`. |
 | I-03 | `installer-matrix.yml` passes local source env | PASS | Workflow configuration verified. |
 | I-04 | Installer tests on Ubuntu, Windows, macOS | PASS | Matrix covers all platforms natively. |
-| I-05 | Installer verifies CLI version post-install | PASS | Step explicitly runs `cineforge --version`. |
+| I-05 | Installer verifies CLI version post-install | PASS | Step explicitly runs `rabto --version`. |
 
 ---
 
@@ -51,7 +51,7 @@
 | H-03 | Local modifications can be forcibly overwritten | PASS | Verified with `--force` flag in tests. |
 | H-04 | Updates fetch content from upstream remote | PASS | Git fixture fetches remote content seamlessly. |
 | H-05 | Backup manifests are generated securely | PASS | Payload matches `backup-manifest.json` schemas. |
-| H-06 | Restore validates backup manifests | PASS | Rejected properly if `isCineForgeBackup` is false. |
+| H-06 | Restore validates backup manifests | PASS | Rejected properly if `isRabtoBackup` is false. |
 | H-07 | Update fails gracefully when offline/HTTP errors occur | PASS | Handled in offline integration test mode. |
 
 ---

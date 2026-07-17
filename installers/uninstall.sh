@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -e
 
-echo "CineForge AI Skills - Shell Uninstaller"
+echo "Rabto AI Skills - Shell Uninstaller"
 
-INSTALL_DIR="$HOME/.local/share/cineforge"
+INSTALL_DIR="$HOME/.local/share/rabto"
 BIN_DIR="$HOME/.local/bin"
 
 if [ -d "$INSTALL_DIR" ]; then
@@ -11,9 +11,9 @@ if [ -d "$INSTALL_DIR" ]; then
     rm -rf "$INSTALL_DIR"
 fi
 
-if [ -L "$BIN_DIR/cineforge" ] || [ -f "$BIN_DIR/cineforge" ]; then
-    echo "Removing CLI executable $BIN_DIR/cineforge..."
-    rm -f "$BIN_DIR/cineforge"
+if [ -L "$BIN_DIR/rabto" ] || [ -f "$BIN_DIR/rabto" ]; then
+    echo "Removing CLI executable $BIN_DIR/rabto..."
+    rm -f "$BIN_DIR/rabto"
 fi
 
 echo "Uninstallation complete."

@@ -18,9 +18,9 @@ jobs:
       - run: npm ci
       - run: npm run build --workspaces
       - name: Create Release Archive
-        run: zip -r cineforge-ai-skills.zip . -x "*.git*" "node_modules/*"
+        run: zip -r rabto-ai-skills.zip . -x "*.git*" "node_modules/*"
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: cineforge-ai-skills.zip
+          files: rabto-ai-skills.zip
           generate_release_notes: true

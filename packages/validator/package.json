@@ -1,7 +1,7 @@
 {
-  "name": "@cineforge/validator",
+  "name": "@rabto/validator",
   "version": "0.1.0",
-  "description": "Validator for CineForge Skills",
+  "description": "Validator for Rabto Skills",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",

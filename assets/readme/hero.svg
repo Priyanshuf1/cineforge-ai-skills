@@ -78,7 +78,7 @@
   <line x1="0" y1="200" x2="1200" y2="200" class="line" style="animation-duration: 7s; opacity: 0.3;" />
 
   <!-- Text -->
-  <text x="600" y="210" text-anchor="middle" class="title">CineForge AI Skills</text>
+  <text x="600" y="210" text-anchor="middle" class="title">Rabto AI Skills</text>
   <text x="600" y="255" text-anchor="middle" class="tagline">Cinematic Web Architecture for Autonomous Agents</text>
   
   <!-- Subtle UI Accents -->

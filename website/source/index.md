@@ -1,7 +1,7 @@
 ---
 layout: home
 hero:
-  name: "CineForge AI Skills"
+  name: "Rabto AI Skills"
   text: "Experimental creative toolkit for AI agents."
   tagline: GSAP, Three.js, WebGL, PixiJS, cinematic typography, scroll experiences, shaders and VFX.
   actions:
@@ -10,7 +10,7 @@ hero:
       link: /guide/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/Priyanshuf1/cineforge-ai-skills
+      link: https://github.com/Priyanshuf1/rabto-ai-skills
 features:
   - title: 33 Canonical Skills
     details: Cross-platform installable rules and knowledge bases.

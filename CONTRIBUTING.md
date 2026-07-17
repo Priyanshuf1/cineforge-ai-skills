@@ -1,4 +1,4 @@
-# Contributing to CineForge AI Skills
+# Contributing to Rabto AI Skills
 
 Thank you for your interest! As a community-driven repository, we welcome new skills and agent adapters.
 

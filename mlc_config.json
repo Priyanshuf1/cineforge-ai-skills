@@ -1,7 +1,7 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^https://Priyanshuf1.github.io/cineforge-ai-skills"
+      "pattern": "^https://Priyanshuf1.github.io/rabto-ai-skills"
     }
   ],
   "retryOn429": true,

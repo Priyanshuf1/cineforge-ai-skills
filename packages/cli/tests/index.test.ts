@@ -7,7 +7,7 @@ describe('CLI Command Structure', () => {
   it('should have required commands', () => {
      // A mock check to verify CLI loads properly without errors in a test environment
      const program = new Command();
-     program.name('cineforge').version('0.1.0');
+     program.name('rabto').version('0.1.0');
      program.command('install');
      program.command('uninstall');
      program.command('doctor');

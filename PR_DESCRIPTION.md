@@ -1,6 +1,6 @@
 # PR #1: Initial Hardening and CI/CD Integrations (v0.1.0)
 
-This PR implements the core hardening, verification, and automated CI workflows necessary for a secure and robust release of CineForge AI Skills.
+This PR implements the core hardening, verification, and automated CI workflows necessary for a secure and robust release of Rabto AI Skills.
 
 ### Status Truthfulness
 - **Default Branch & PR Base**: `master`
@@ -16,6 +16,6 @@ This PR implements the core hardening, verification, and automated CI workflows 
 ### Key Accomplishments
 - Implemented robust `install.sh` and `install.ps1` with temporary directory staging.
 - Enforced strict `safeJoin()` and symlink protections for local environment modification.
-- Setup exhaustive Matrix Testing (Ubuntu, Windows, macOS) against local source code (`CINEFORGE_SOURCE_DIR`).
+- Setup exhaustive Matrix Testing (Ubuntu, Windows, macOS) against local source code (`RABTO_SOURCE_DIR`).
 - Established strict markdown link-check and Playwright tap-testing for the documentation.
 - Populated foundational strict JSON schema metadata for all 33 skills.

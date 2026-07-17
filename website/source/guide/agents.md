@@ -1,13 +1,13 @@
 # Target Agents
 
-CineForge is designed to inject system prompt skills into various Agentic Coding Assistants. Because each assistant has a completely different configuration file hierarchy and capability matrix, CineForge uses **Target Adapters**.
+Rabto is designed to inject system prompt skills into various Agentic Coding Assistants. Because each assistant has a completely different configuration file hierarchy and capability matrix, Rabto uses **Target Adapters**.
 
 ---
 
 ## Antigravity
 **Status: BETA / VERIFIED SCOPE**
 
-Antigravity is the primary, officially verified target for CineForge. It perfectly supports reading the `SKILL.md` markdown format, parses triggers reliably, and respects the visual browser QA checklists natively.
+Antigravity is the primary, officially verified target for Rabto. It perfectly supports reading the `SKILL.md` markdown format, parses triggers reliably, and respects the visual browser QA checklists natively.
 
 **Global Scope Path:**
 `~/.gemini/config/skills`

@@ -1,13 +1,13 @@
-# CineForge AI Skills
+# Rabto AI Skills
 
-![CineForge Banner](./assets/readme/hero.svg)
+![Rabto Banner](./assets/readme/hero.svg)
 
 > **Installable creative-web skills for AI coding agents — GSAP, Three.js, WebGL, PixiJS, cinematic typography, scroll experiences, shaders and VFX.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/Priyanshuf1/cineforge-ai-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/Priyanshuf1/cineforge-ai-skills/actions)
+[![CI](https://github.com/Priyanshuf1/rabto-ai-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/Priyanshuf1/rabto-ai-skills/actions)
 
-CineForge provides a skill library that teaches AI coding agents to build cinematic, animated, anime-inspired, and real-time 3D web experiences.
+Rabto provides a skill library that teaches AI coding agents to build cinematic, animated, anime-inspired, and real-time 3D web experiences.
 
 > [!WARNING]
 > **Status: BETA**
@@ -36,8 +36,8 @@ CineForge provides a skill library that teaches AI coding agents to build cinema
 
 ### Method 1: Clone and Run (Recommended)
 ```bash
-git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
-cd cineforge-ai-skills
+git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+cd rabto-ai-skills
 npm ci
 npm run setup
 ```
@@ -49,7 +49,7 @@ npm run install:antigravity
 
 ### Method 3: CLI
 ```bash
-cineforge install --target antigravity --preset cinematic-web
+rabto install --target antigravity --preset cinematic-web
 ```
 
 ### Method 4: Shell / PowerShell Installers
@@ -60,17 +60,17 @@ For PR testing, clone this repository and install locally:
 
 **macOS/Linux:**
 ```bash
-git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
-cd cineforge-ai-skills
-export CINEFORGE_SOURCE_DIR=$(pwd)
+git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+cd rabto-ai-skills
+export RABTO_SOURCE_DIR=$(pwd)
 ./installers/install.sh --target antigravity
 ```
 
 **Windows (PowerShell):**
 ```powershell
-git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
-cd cineforge-ai-skills
-$env:CINEFORGE_SOURCE_DIR = $PWD.Path
+git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+cd rabto-ai-skills
+$env:RABTO_SOURCE_DIR = $PWD.Path
 .\installers\install.ps1 -target antigravity
 ```
 
@@ -87,7 +87,7 @@ Defined in `registry/presets.json`. Pass preset name to `--preset`:
 > All presets are EXPERIMENTAL in v0.1.0. Stable releases require full example verification.
 
 ## Documentation
-Full documentation is available at [https://Priyanshuf1.github.io/cineforge-ai-skills](https://Priyanshuf1.github.io/cineforge-ai-skills).
+Full documentation is available at [https://Priyanshuf1.github.io/rabto-ai-skills](https://Priyanshuf1.github.io/rabto-ai-skills).
 
 ## Contributing
 Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to add new skills or agent adapters.

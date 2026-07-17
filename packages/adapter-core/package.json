@@ -1,7 +1,7 @@
 {
-  "name": "@cineforge/adapter-core",
+  "name": "@rabto/adapter-core",
   "version": "0.1.0",
-  "description": "Core adapter logic for CineForge",
+  "description": "Core adapter logic for Rabto",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",

@@ -1,6 +1,6 @@
 # CLI Reference
 
-The CineForge CLI (`cineforge`) manages the installation, updating, and integrity of the AI skills. 
+The Rabto CLI (`rabto`) manages the installation, updating, and integrity of the AI skills. 
 It strictly enforces path boundaries and generates transactional backups to ensure your environment is safe.
 
 ## `install`
@@ -15,7 +15,7 @@ Installs skills into the target agent environment.
 
 **Example:**
 ```bash
-cineforge install --target antigravity --preset cinematic-web
+rabto install --target antigravity --preset cinematic-web
 ```
 
 ## `update`
@@ -28,11 +28,11 @@ It verifies file integrity using SHA-256 checksums to ensure it doesn't overwrit
 
 **Example:**
 ```bash
-cineforge update --target antigravity
+rabto update --target antigravity
 ```
 
 ## `uninstall`
-Removes the installed skills and the CineForge manifest from the target agent. Blocks removal if the local files have been modified by the user.
+Removes the installed skills and the Rabto manifest from the target agent. Blocks removal if the local files have been modified by the user.
 
 **Flags:**
 - `--target <agent>`: (Required) Target agent environment.
@@ -40,7 +40,7 @@ Removes the installed skills and the CineForge manifest from the target agent. B
 
 **Example:**
 ```bash
-cineforge uninstall --target antigravity
+rabto uninstall --target antigravity
 ```
 
 ## `backup`
@@ -52,7 +52,7 @@ Creates a secure JSON backup manifest of the currently installed skills in the t
 
 **Example:**
 ```bash
-cineforge backup --target antigravity --out ./backups/july-2026/
+rabto backup --target antigravity --out ./backups/july-2026/
 ```
 
 ## `restore`
@@ -64,7 +64,7 @@ Restores an installation from a previously generated backup manifest.
 
 **Example:**
 ```bash
-cineforge restore --manifest ./backups/july-2026/backup-manifest.json
+rabto restore --manifest ./backups/july-2026/backup-manifest.json
 ```
 
 ## `adapters`
@@ -72,7 +72,7 @@ Lists all supported target adapters and their verification statuses.
 
 **Example:**
 ```bash
-cineforge adapters
+rabto adapters
 ```
 
 ## `info`

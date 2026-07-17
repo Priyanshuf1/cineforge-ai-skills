@@ -1,9 +1,9 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: "CineForge AI Skills",
+  title: "Rabto AI Skills",
   description: "Installable creative-web skills for AI coding agents.",
-  base: '/cineforge-ai-skills/',
+  base: '/rabto-ai-skills/',
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
@@ -27,7 +27,7 @@ export default defineConfig({
       }
     ],
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/Priyanshuf1/cineforge-ai-skills' }
+      { icon: 'github', link: 'https://github.com/Priyanshuf1/rabto-ai-skills' }
     ]
   }
 })

@@ -19,14 +19,14 @@ test.describe('Documentation Site Interactive E2E', () => {
     const consoleErrors = setupErrorTracking(page);
 
     await page.goto('/');
-    await expect(page).toHaveTitle(/CineForge/);
+    await expect(page).toHaveTitle(/Rabto/);
     
     // Capture Home
     await page.screenshot({ path: `test-results/${testInfo.project.name}-home.png` });
 
     // Click Logo
     await page.locator('.VPNavBarTitle').click();
-    await expect(page).toHaveURL(/.*\/cineforge-ai-skills\//);
+    await expect(page).toHaveURL(/.*\/rabto-ai-skills\//);
 
     // Theme Toggle
     const themeToggle = page.locator('.VPSwitchAppearance').first();
@@ -77,7 +77,7 @@ test.describe('Documentation Site Interactive E2E', () => {
          const bodyText = await page.locator('body').innerText();
          expect(bodyText).not.toContain('404 | Not Found');
          expect(bodyText).not.toContain('PAGE NOT FOUND');
-         expect(page.url()).toContain('/cineforge-ai-skills/');
+         expect(page.url()).toContain('/rabto-ai-skills/');
       }
     }
 

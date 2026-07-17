@@ -8,18 +8,18 @@ import { spawnSync } from 'child_process';
 
 const program = new Command();
 
-const CINEFORGE_ROOT = process.env.CINEFORGE_ROOT
-  ? path.resolve(process.env.CINEFORGE_ROOT)
+const RABTO_ROOT = process.env.RABTO_ROOT
+  ? path.resolve(process.env.RABTO_ROOT)
   : path.resolve(__dirname, '../../../../');
 
-const SKILLS_DIR = path.join(CINEFORGE_ROOT, 'skills');
-const REGISTRY_PATH = path.join(CINEFORGE_ROOT, 'registry', 'skills.json');
-const PRESETS_PATH = path.join(CINEFORGE_ROOT, 'registry', 'presets.json');
-const CHECKSUMS_PATH = path.join(CINEFORGE_ROOT, 'registry', 'checksums.json');
+const SKILLS_DIR = path.join(RABTO_ROOT, 'skills');
+const REGISTRY_PATH = path.join(RABTO_ROOT, 'registry', 'skills.json');
+const PRESETS_PATH = path.join(RABTO_ROOT, 'registry', 'presets.json');
+const CHECKSUMS_PATH = path.join(RABTO_ROOT, 'registry', 'checksums.json');
 
 program
-  .name('cineforge')
-  .description('CineForge AI Skills CLI - Installable creative-web skills for AI coding agents.')
+  .name('rabto')
+  .description('Rabto AI Skills CLI - Installable creative-web skills for AI coding agents.')
   .version('0.1.0');
 
 // ─── SECURITY: Boundary-safe path join ────────────────────────────────────────
@@ -58,7 +58,7 @@ const ADAPTERS: Record<string, { path: (scope: string) => string; verified: bool
 function getTargetDir(target: string, scope: string): string {
   const adapter = ADAPTERS[target];
   if (!adapter) {
-    console.error(`Error: Unknown target '${target}'. Run 'cineforge adapters' to see supported targets.`);
+    console.error(`Error: Unknown target '${target}'. Run 'rabto adapters' to see supported targets.`);
     process.exit(1);
   }
   if (!adapter.verified) console.warn(`Warning: ${adapter.note}`);
@@ -142,10 +142,10 @@ program
     if (skillsToInstall.length === 0) process.exit(1);
 
     const targetDir = getTargetDir(targetAgent, options.scope);
-    const manifestPath = path.join(targetDir, '.cineforge-manifest.json');
+    const manifestPath = path.join(targetDir, '.rabto-manifest.json');
     const manifest = await readManifest(manifestPath, targetAgent, options.scope);
 
-    const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-stage-'));
+    const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-stage-'));
     try {
       for (const skill of skillsToInstall) {
         if (!/^[a-zA-Z0-9-_]+$/.test(skill)) throw new Error(`Invalid skill ID: ${skill}`);
@@ -183,7 +183,7 @@ program
             lastVerifiedInstalledHash: sourceHash,
             upstreamHash: sourceHash,
             backupPath: manifest.installed[skill]?.backupPath,
-            owner: 'cineforge',
+            owner: 'rabto',
           };
         }
         manifest.updatedAt = new Date().toISOString();
@@ -200,14 +200,14 @@ program
 
 program
   .command('uninstall')
-  .description('Safely uninstall managed CineForge skills')
+  .description('Safely uninstall managed Rabto skills')
   .option('-t, --target <agent>', 'Target agent', 'antigravity')
   .option('-s, --scope <scope>', 'Installation scope', 'workspace')
   .option('--skills <skills>', 'Comma-separated skill IDs')
   .option('-f, --force', 'Force uninstall even if files are modified')
   .action(async (options) => {
     const targetDir = getTargetDir(options.target, options.scope);
-    const manifestPath = path.join(targetDir, '.cineforge-manifest.json');
+    const manifestPath = path.join(targetDir, '.rabto-manifest.json');
     if (!(await fs.pathExists(manifestPath))) return;
 
     const manifest: Manifest = await fs.readJson(manifestPath);
@@ -215,7 +215,7 @@ program
 
     for (const skill of toRemove) {
       const entry = manifest.installed[skill];
-      if (!entry || entry.owner !== 'cineforge') continue;
+      if (!entry || entry.owner !== 'rabto') continue;
       
       let destPath: string;
       try {
@@ -248,15 +248,15 @@ program
   .option('-f, --force', 'Force overwrite modified files')
   .action(async (options) => {
     const targetDir = getTargetDir(options.target, options.scope);
-    const manifestPath = path.join(targetDir, '.cineforge-manifest.json');
+    const manifestPath = path.join(targetDir, '.rabto-manifest.json');
     if (!(await fs.pathExists(manifestPath))) {
       console.error('No manifest found. Nothing to update.');
       process.exit(1);
     }
 
-    const remoteRepo = process.env.CINEFORGE_REMOTE_REPO || 'https://github.com/Priyanshuf1/cineforge-ai-skills.git';
+    const remoteRepo = process.env.RABTO_REMOTE_REPO || 'https://github.com/Priyanshuf1/rabto-ai-skills.git';
     
-    const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-clone-'));
+    const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-clone-'));
     console.log(`Fetching updates from ${remoteRepo}...`);
     const r = spawnSync('git', ['clone', '--depth', '1', remoteRepo, cloneDir]);
     if (r.status !== 0) {
@@ -276,7 +276,7 @@ program
     const manifest: Manifest = await fs.readJson(manifestPath);
     let updatedCount = 0;
 
-    const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-stage-'));
+    const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-stage-'));
 
     try {
       const toUpdate = [];
@@ -347,12 +347,12 @@ program
     await fs.copy(targetDir, backupDest);
     
     // Write backup manifest
-    const manifestPath = path.join(targetDir, '.cineforge-manifest.json');
+    const manifestPath = path.join(targetDir, '.rabto-manifest.json');
     let originalManifest = {};
     if (await fs.pathExists(manifestPath)) originalManifest = await fs.readJson(manifestPath);
     
     const backupManifest = {
-      isCineForgeBackup: true,
+      isRabtoBackup: true,
       timestamp: new Date().toISOString(),
       target: options.target,
       originalManifest
@@ -377,8 +377,8 @@ program
       process.exit(1);
     }
     const backupManifest = await fs.readJson(backupManifestPath);
-    if (!backupManifest.isCineForgeBackup) {
-      console.error('Invalid backup: Not a valid CineForge backup manifest');
+    if (!backupManifest.isRabtoBackup) {
+      console.error('Invalid backup: Not a valid Rabto backup manifest');
       process.exit(1);
     }
     
@@ -396,10 +396,10 @@ program.command('list').action(async () => {
     console.log(`  ${id.padEnd(40)} [${meta.status ?? 'unknown'}]`);
   }
 });
-program.command('demo').action(() => console.log('cineforge install --preset cinematic-web'));
+program.command('demo').action(() => console.log('rabto install --preset cinematic-web'));
 program.command('init').action(async (options) => {
   const target = options.target || 'antigravity';
-  await fs.writeJson(path.join(process.cwd(), '.cineforge.json'), { version: '1', agent: target }, { spaces: 2 });
+  await fs.writeJson(path.join(process.cwd(), '.rabto.json'), { version: '1', agent: target }, { spaces: 2 });
 });
 program.command('doctor').action(async () => {
   console.log('All checks passed.');

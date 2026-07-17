@@ -1,5 +1,5 @@
 {
-  "name": "cineforge-ai-skills",
+  "name": "rabto-ai-skills",
   "version": "0.1.0",
   "private": true,
   "description": "Installable creative-web skills for AI coding agents — GSAP, Three.js, WebGL, PixiJS, cinematic typography, scroll experiences, shaders and VFX.",
@@ -15,7 +15,7 @@
     "build": "npm run build --workspaces",
     "test:installer": "node scripts/verify-adapters.mjs",
     "validate:registry": "node scripts/validate-skills.mjs",
-    "install:antigravity": "node packages/cli/dist/bin/cineforge.js install --target antigravity --scope global --all"
+    "install:antigravity": "node packages/cli/dist/bin/rabto.js install --target antigravity --scope global --all"
   },
   "devDependencies": {
     "eslint": "^8.57.0",
