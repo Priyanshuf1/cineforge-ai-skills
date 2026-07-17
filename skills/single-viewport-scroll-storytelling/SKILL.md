@@ -1,6 +1,24 @@
 ---
 name: single-viewport-scroll-storytelling
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Builds immersive scroll-driven experiences that feel pinned or fixed. Activate when user scroll controls timeline progress rather than native scrolling.
+triggers:
+  - "add single-viewport-scroll-storytelling"
+  - "implement single viewport scroll storytelling"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # single-viewport-scroll-storytelling

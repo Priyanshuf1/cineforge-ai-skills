@@ -1,6 +1,24 @@
 ---
 name: creative-web-art-direction
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Guides overall visual direction, color harmony, and mood for premium web experiences. Activate when establishing the initial design system or visual theme.
+triggers:
+  - "add creative-web-art-direction"
+  - "implement creative web art direction"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # creative-web-art-direction

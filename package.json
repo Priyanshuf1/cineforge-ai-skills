@@ -9,12 +9,13 @@
   ],
   "scripts": {
     "setup": "npm run build --workspaces",
-    "test": "npm run test --workspaces",
-    "lint": "eslint .",
+    "test": "npm run validate:registry && npm run test --workspaces",
+    "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write .",
     "build": "npm run build --workspaces",
     "test:installer": "node scripts/verify-adapters.mjs",
-    "validate:registry": "node scripts/validate-skills.mjs"
+    "validate:registry": "node scripts/validate-skills.mjs",
+    "install:antigravity": "node packages/cli/dist/bin/cineforge.js install --target antigravity --scope global --all"
   },
   "devDependencies": {
     "eslint": "^8.57.0",

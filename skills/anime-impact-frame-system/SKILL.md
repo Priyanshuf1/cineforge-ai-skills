@@ -1,6 +1,24 @@
 ---
 name: anime-impact-frame-system
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Implements high-contrast, brief flash frames to emphasize powerful animations. Activate to add 'punch' to significant interactions.
+triggers:
+  - "add anime-impact-frame-system"
+  - "implement anime impact frame system"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # anime-impact-frame-system

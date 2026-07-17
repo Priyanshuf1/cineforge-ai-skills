@@ -1,0 +1,305 @@
+{
+  "skills": {
+    "accessibility-for-motion": {
+      "name": "accessibility-for-motion",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Ensures animations respect user preferences (prefers-reduced-motion) and are keyboard accessible. Activate on every interactive project."
+    },
+    "anime-cel-shading": {
+      "name": "anime-cel-shading",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Implements toon/cel shading materials for 3D models. Activate when aiming for a stylized, non-photorealistic 3D look."
+    },
+    "anime-impact-frame-system": {
+      "name": "anime-impact-frame-system",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Implements high-contrast, brief flash frames to emphasize powerful animations. Activate to add 'punch' to significant interactions."
+    },
+    "anime-motion-principles": {
+      "name": "anime-motion-principles",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Applies traditional anime timing, spacing, and anticipation to web elements. Activate when creating energetic, stylized UI motion."
+    },
+    "anime-particle-systems": {
+      "name": "anime-particle-systems",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Creates stylized particle emissions like sparks, cherry blossoms, or energy dust. Activate when generating 2D or 3D particle bursts."
+    },
+    "anime-title-impact-animation": {
+      "name": "anime-title-impact-animation",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Creates dramatic, large-scale title reveals with screen shake or impact frames. Activate for hero section typographic impacts."
+    },
+    "background-aware-contrast-compositing": {
+      "name": "background-aware-contrast-compositing",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Ensures text and UI elements remain legible over dynamic, moving, or 3D backgrounds. Activate when placing content over video or WebGL canvases."
+    },
+    "cinematic-camera-direction": {
+      "name": "cinematic-camera-direction",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Controls 3D camera movement, framing, and transitions. Activate when animating camera paths or interpolating views."
+    },
+    "cinematic-web-typography": {
+      "name": "cinematic-web-typography",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Implements high-end typographic scales, pairings, and layout for web. Activate when styling text elements for a cinematic or editorial feel."
+    },
+    "creative-web-art-direction": {
+      "name": "creative-web-art-direction",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Guides overall visual direction, color harmony, and mood for premium web experiences. Activate when establishing the initial design system or visual theme."
+    },
+    "creative-web-skill-maintenance": {
+      "name": "creative-web-skill-maintenance",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Guidelines for updating and expanding this very skill library. Activate when authoring new skills."
+    },
+    "energy-slash-and-trail-effects": {
+      "name": "energy-slash-and-trail-effects",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Implements motion trails, slashes, and speed lines. Activate for dynamic swipe or movement trails."
+    },
+    "foreground-occlusion-compositing": {
+      "name": "foreground-occlusion-compositing",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Integrates foreground DOM elements seamlessly with background 3D or video scenes to create depth. Activate when layering UI with 3D."
+    },
+    "glsl-shader-effects": {
+      "name": "glsl-shader-effects",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Authors custom vertex and fragment shaders for unique materials and distortions. Activate when standard 3D materials are insufficient."
+    },
+    "gltf-asset-optimization": {
+      "name": "gltf-asset-optimization",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Compresses and optimizes 3D assets for fast web delivery. Activate before deploying heavy 3D models."
+    },
+    "gsap-motion-direction": {
+      "name": "gsap-motion-direction",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Orchestrates complex UI animations, layout transitions, and timeline sequences. Activate when building multi-step animations or interactive UI motion."
+    },
+    "gsap-splittext-choreography": {
+      "name": "gsap-splittext-choreography",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Creates intricate text reveal and typographic animations. Activate when animating individual words, lines, or characters of text."
+    },
+    "interactive-3d-models": {
+      "name": "interactive-3d-models",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Handles loading, playing animations, and interacting with 3D models (glTF). Activate when incorporating external 3D assets."
+    },
+    "interactive-audio-direction": {
+      "name": "interactive-audio-direction",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Manages web audio, sound effects, and spatial audio tied to interactions. Activate when adding auditory feedback to UI or 3D."
+    },
+    "lottie-motion-graphics": {
+      "name": "lottie-motion-graphics",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Implements After Effects exported animations using Lottie. Activate for pre-rendered vector animations without complex state."
+    },
+    "pixijs-2d-vfx": {
+      "name": "pixijs-2d-vfx",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Utilizes PixiJS for high-performance 2D WebGL effects like displacement maps or sprite particles. Activate for 2D WebGL VFX."
+    },
+    "postprocessing-and-colour-grading": {
+      "name": "postprocessing-and-colour-grading",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Applies full-screen WebGL effects like bloom, depth of field, and color correction. Activate to enhance 3D scene visual quality."
+    },
+    "rapier-physics-integration": {
+      "name": "rapier-physics-integration",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Adds rigid body physics simulations to 3D scenes. Activate when objects need gravity, collisions, or realistic interaction."
+    },
+    "react-three-fiber-cinematic-scenes": {
+      "name": "react-three-fiber-cinematic-scenes",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Builds declarative 3D scenes using R3F. Activate when integrating Three.js within a React application."
+    },
+    "responsive-scene-composition": {
+      "name": "responsive-scene-composition",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Handles layout and positioning of 3D and 2D elements across different screen sizes. Activate when ensuring a scene looks good on both desktop and mobile."
+    },
+    "responsive-vfx-performance": {
+      "name": "responsive-vfx-performance",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Manages pixel ratio, asset LOD, and effect toggling based on device capabilities. Activate to ensure smooth frame rates."
+    },
+    "rive-interactive-vector-graphics": {
+      "name": "rive-interactive-vector-graphics",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Integrates Rive state machines for interactive vector animations. Activate for complex, state-driven 2D illustrations."
+    },
+    "scroll-video-and-frame-sequences": {
+      "name": "scroll-video-and-frame-sequences",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Synchronizes video playback or image sequence drawing with scroll position. Activate when scrub-animating media sequences."
+    },
+    "single-viewport-scroll-storytelling": {
+      "name": "single-viewport-scroll-storytelling",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Builds immersive scroll-driven experiences that feel pinned or fixed. Activate when user scroll controls timeline progress rather than native scrolling."
+    },
+    "svg-motion-graphics": {
+      "name": "svg-motion-graphics",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Animates vector graphics for loaders, icons, and illustrations. Activate when drawing SVG paths or morphing shapes."
+    },
+    "theatrejs-camera-authoring": {
+      "name": "theatrejs-camera-authoring",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Uses Theatre.js for visual timeline keyframing of 3D objects and cameras. Activate when visual keyframing is required for cinematic sequences."
+    },
+    "threejs-foundations": {
+      "name": "threejs-foundations",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Handles core Three.js setup including scene, renderer, and basic lighting. Activate when establishing a vanilla Three.js environment."
+    },
+    "visual-browser-qa": {
+      "name": "visual-browser-qa",
+      "status": "EXPERIMENTAL",
+      "version": "0.1.0",
+      "categories": [
+        "creative-web"
+      ],
+      "description": "Checklist and procedures for cross-browser visual verification of WebGL and advanced CSS. Activate before finalizing a feature."
+    }
+  },
+  "metadata": {
+    "generated_at": "2026-07-17T13:02:35.316Z",
+    "count": 33
+  }
+}

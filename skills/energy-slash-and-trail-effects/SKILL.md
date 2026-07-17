@@ -1,6 +1,24 @@
 ---
 name: energy-slash-and-trail-effects
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Implements motion trails, slashes, and speed lines. Activate for dynamic swipe or movement trails.
+triggers:
+  - "add energy-slash-and-trail-effects"
+  - "implement energy slash and trail effects"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # energy-slash-and-trail-effects

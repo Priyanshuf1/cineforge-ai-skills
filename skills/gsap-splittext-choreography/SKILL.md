@@ -1,6 +1,24 @@
 ---
 name: gsap-splittext-choreography
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Creates intricate text reveal and typographic animations. Activate when animating individual words, lines, or characters of text.
+triggers:
+  - "add gsap-splittext-choreography"
+  - "implement gsap splittext choreography"
+related_skills:
+  - "cinematic-camera-direction"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "npm"
+  - "run_command"
+minimum_inputs:
+  - "User provides element class or ID to animate"
+  - "User states the desired scroll or timeline effect"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # gsap-splittext-choreography

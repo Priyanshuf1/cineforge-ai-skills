@@ -1,6 +1,24 @@
 ---
 name: threejs-foundations
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Handles core Three.js setup including scene, renderer, and basic lighting. Activate when establishing a vanilla Three.js environment.
+triggers:
+  - "add threejs-foundations"
+  - "implement threejs foundations"
+related_skills:
+  - "gltf-asset-optimization"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "npm"
+  - "run_command"
+minimum_inputs:
+  - "User provides 3D asset paths or procedural requirements"
+  - "User provides lighting and camera requirements"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # threejs-foundations

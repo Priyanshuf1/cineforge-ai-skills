@@ -17,7 +17,6 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run build --workspaces
-        continue-on-error: true
       - name: Create Release Archive
         run: zip -r cineforge-ai-skills.zip . -x "*.git*" "node_modules/*"
       - name: Create GitHub Release

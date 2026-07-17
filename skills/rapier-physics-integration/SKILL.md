@@ -1,6 +1,24 @@
 ---
 name: rapier-physics-integration
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Adds rigid body physics simulations to 3D scenes. Activate when objects need gravity, collisions, or realistic interaction.
+triggers:
+  - "add rapier-physics-integration"
+  - "implement rapier physics integration"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # rapier-physics-integration

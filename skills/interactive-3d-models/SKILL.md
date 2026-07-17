@@ -1,6 +1,24 @@
 ---
 name: interactive-3d-models
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Handles loading, playing animations, and interacting with 3D models (glTF). Activate when incorporating external 3D assets.
+triggers:
+  - "add interactive-3d-models"
+  - "implement interactive 3d models"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # interactive-3d-models

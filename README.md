@@ -5,20 +5,38 @@
 > **Installable creative-web skills for AI coding agents — GSAP, Three.js, WebGL, PixiJS, cinematic typography, scroll experiences, shaders and VFX.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/apriy/cineforge-ai-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/apriy/cineforge-ai-skills/actions)
+[![CI](https://github.com/Priyanshuf1/cineforge-ai-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/Priyanshuf1/cineforge-ai-skills/actions)
 
-CineForge provides a production-ready skill library that teaches AI coding agents to build cinematic, animated, anime-inspired, and real-time 3D web experiences. 
+CineForge provides a skill library that teaches AI coding agents to build cinematic, animated, anime-inspired, and real-time 3D web experiences.
+
+> [!WARNING]
+> **Status: BETA**
+> This repository is currently undergoing hardening for v0.1.0. Some skills are marked as EXPERIMENTAL. Do not use shell installers blindly without inspecting them.
 
 ## Features
 - **33 Canonical Skills**: Covering everything from typography to GLSL shaders.
-- **Agent Adapters**: Officially supported bindings for Antigravity, Claude Code, and Gemini CLI.
+- **Agent Adapters**: Adapters for Antigravity, Claude Code, and Gemini CLI.
 - **Cross-Platform CLI**: Safe installation with backups, dry-runs, and validation.
+
+## Support Status & Compatibility
+
+| Agent | Status | Notes |
+|-------|--------|-------|
+| Antigravity | BETA | Utilizes standard skills loading directory |
+| Claude Code | EXPERIMENTAL | In development |
+| Gemini CLI | EXPERIMENTAL | In development |
+
+| OS | Supported |
+|----|-----------|
+| Ubuntu / Linux | :white_check_mark: |
+| Windows | :white_check_mark: |
+| macOS | :white_check_mark: |
 
 ## Installation
 
 ### Method 1: Clone and Run (Recommended)
 ```bash
-git clone https://github.com/apriy/cineforge-ai-skills.git
+git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
 cd cineforge-ai-skills
 npm ci
 npm run setup
@@ -34,14 +52,42 @@ npm run install:antigravity
 cineforge install --target antigravity --preset cinematic-web
 ```
 
+### Method 4: Shell / PowerShell Installers
+> [!NOTE]
+> Available after the `v0.1.0` release.
+
+For PR testing, clone this repository and install locally:
+
+**macOS/Linux:**
+```bash
+git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
+cd cineforge-ai-skills
+export CINEFORGE_SOURCE_DIR=$(pwd)
+./installers/install.sh --target antigravity
+```
+
+**Windows (PowerShell):**
+```powershell
+git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
+cd cineforge-ai-skills
+$env:CINEFORGE_SOURCE_DIR = $PWD.Path
+.\installers\install.ps1 -target antigravity
+```
+
 ## Available Presets
-- `cinematic-web`: Core typography, scroll, and compositing skills.
-- `anime-vfx`: Impact frames, particle systems, and slashes.
-- `threejs`: R3F, shaders, cel-shading, and 3D modeling.
-- `scroll-experience`: Single-window video scrub storytelling.
+
+Defined in `registry/presets.json`. Pass preset name to `--preset`:
+
+- `cinematic-web` — Cinematic scroll, typography, camera (EXPERIMENTAL)
+- `anime-vfx` — Impact frames, particle systems, slashes (EXPERIMENTAL)
+- `threejs-starter` — R3F, shaders, cel-shading, 3D models (EXPERIMENTAL)
+- `performance` — Responsive scene, VFX, glTF optimization (EXPERIMENTAL)
+
+> [!NOTE]
+> All presets are EXPERIMENTAL in v0.1.0. Stable releases require full example verification.
 
 ## Documentation
-Full documentation is available at [https://apriy.github.io/cineforge-ai-skills](https://apriy.github.io/cineforge-ai-skills).
+Full documentation is available at [https://Priyanshuf1.github.io/cineforge-ai-skills](https://Priyanshuf1.github.io/cineforge-ai-skills).
 
 ## Contributing
 Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to add new skills or agent adapters.

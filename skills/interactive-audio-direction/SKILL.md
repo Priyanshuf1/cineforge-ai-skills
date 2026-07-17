@@ -1,6 +1,24 @@
 ---
 name: interactive-audio-direction
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Manages web audio, sound effects, and spatial audio tied to interactions. Activate when adding auditory feedback to UI or 3D.
+triggers:
+  - "add interactive-audio-direction"
+  - "implement interactive audio direction"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # interactive-audio-direction

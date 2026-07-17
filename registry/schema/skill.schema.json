@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Skill",
+  "type": "object",
+  "required": [
+    "name",
+    "version",
+    "status",
+    "description",
+    "categories",
+    "triggers",
+    "related_skills",
+    "conflicting_skills",
+    "primary_tools",
+    "minimum_inputs",
+    "verification_required",
+    "last_reviewed"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["STABLE", "BETA", "EXPERIMENTAL"]
+    },
+    "description": {
+      "type": "string"
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "related_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "conflicting_skills": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "primary_tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "minimum_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "verification_required": {
+      "type": "boolean"
+    },
+    "last_reviewed": {
+      "type": "string"
+    }
+  }
+}

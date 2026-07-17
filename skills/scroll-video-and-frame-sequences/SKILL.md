@@ -1,6 +1,24 @@
 ---
 name: scroll-video-and-frame-sequences
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Synchronizes video playback or image sequence drawing with scroll position. Activate when scrub-animating media sequences.
+triggers:
+  - "add scroll-video-and-frame-sequences"
+  - "implement scroll video and frame sequences"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # scroll-video-and-frame-sequences

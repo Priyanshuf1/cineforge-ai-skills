@@ -1,6 +1,24 @@
 ---
 name: gltf-asset-optimization
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Compresses and optimizes 3D assets for fast web delivery. Activate before deploying heavy 3D models.
+triggers:
+  - "add gltf-asset-optimization"
+  - "implement gltf asset optimization"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # gltf-asset-optimization

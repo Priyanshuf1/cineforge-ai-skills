@@ -1,6 +1,24 @@
 ---
 name: gsap-motion-direction
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Orchestrates complex UI animations, layout transitions, and timeline sequences. Activate when building multi-step animations or interactive UI motion.
+triggers:
+  - "add gsap-motion-direction"
+  - "implement gsap motion direction"
+related_skills:
+  - "cinematic-camera-direction"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "npm"
+  - "run_command"
+minimum_inputs:
+  - "User provides element class or ID to animate"
+  - "User states the desired scroll or timeline effect"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # gsap-motion-direction

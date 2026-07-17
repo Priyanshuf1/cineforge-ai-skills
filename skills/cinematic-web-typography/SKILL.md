@@ -1,6 +1,24 @@
 ---
 name: cinematic-web-typography
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Implements high-end typographic scales, pairings, and layout for web. Activate when styling text elements for a cinematic or editorial feel.
+triggers:
+  - "add cinematic-web-typography"
+  - "implement cinematic web typography"
+related_skills:
+  - "visual-browser-qa"
+conflicting_skills: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # cinematic-web-typography
