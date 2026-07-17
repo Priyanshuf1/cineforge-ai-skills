@@ -4,6 +4,13 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Implements high-contrast, brief flash frames to emphasize powerful animations. Activate to add 'punch' to significant interactions.
+triggers: []
+related_skills: []
+conflicting_skills: []
+primary_tools: []
+minimum_inputs: []
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # anime-impact-frame-system

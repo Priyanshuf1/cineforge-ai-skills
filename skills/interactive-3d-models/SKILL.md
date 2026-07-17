@@ -4,6 +4,13 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Handles loading, playing animations, and interacting with 3D models (glTF). Activate when incorporating external 3D assets.
+triggers: []
+related_skills: []
+conflicting_skills: []
+primary_tools: []
+minimum_inputs: []
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # interactive-3d-models

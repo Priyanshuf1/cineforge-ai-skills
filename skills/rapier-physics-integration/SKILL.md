@@ -4,6 +4,13 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Adds rigid body physics simulations to 3D scenes. Activate when objects need gravity, collisions, or realistic interaction.
+triggers: []
+related_skills: []
+conflicting_skills: []
+primary_tools: []
+minimum_inputs: []
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # rapier-physics-integration

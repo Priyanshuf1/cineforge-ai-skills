@@ -4,6 +4,13 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Guides overall visual direction, color harmony, and mood for premium web experiences. Activate when establishing the initial design system or visual theme.
+triggers: []
+related_skills: []
+conflicting_skills: []
+primary_tools: []
+minimum_inputs: []
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # creative-web-art-direction

@@ -4,6 +4,13 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Uses Theatre.js for visual timeline keyframing of 3D objects and cameras. Activate when visual keyframing is required for cinematic sequences.
+triggers: []
+related_skills: []
+conflicting_skills: []
+primary_tools: []
+minimum_inputs: []
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # theatrejs-camera-authoring

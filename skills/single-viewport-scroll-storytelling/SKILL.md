@@ -4,6 +4,13 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Builds immersive scroll-driven experiences that feel pinned or fixed. Activate when user scroll controls timeline progress rather than native scrolling.
+triggers: []
+related_skills: []
+conflicting_skills: []
+primary_tools: []
+minimum_inputs: []
+verification_required: true
+last_reviewed: "2026-07-17"
 ---
 
 # single-viewport-scroll-storytelling

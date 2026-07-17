@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "setup": "npm run build --workspaces",
-    "test": "npm run test --workspaces",
+    "test": "npm run validate:registry && npm run test --workspaces",
     "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write .",
     "build": "npm run build --workspaces",

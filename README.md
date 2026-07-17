@@ -52,18 +52,26 @@ npm run install:antigravity
 cineforge install --target antigravity --preset cinematic-web
 ```
 
-### Method 4: Shell Installers (macOS/Linux)
-> [!CAUTION]
-> Inspect the `install.sh` script before running. Do not use raw branch paths for production environments. Prefer versioned releases (e.g. `v0.1.0`).
+### Method 4: Shell / PowerShell Installers
+> [!NOTE]
+> Available after the `v0.1.0` release.
+
+For PR testing, clone this repository and install locally:
+
+**macOS/Linux:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/Priyanshuf1/cineforge-ai-skills/v0.1.0/installers/install.sh | bash
+git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
+cd cineforge-ai-skills
+export CINEFORGE_SOURCE_DIR=$(pwd)
+./installers/install.sh --target antigravity
 ```
 
-### Method 5: PowerShell Installers (Windows)
-> [!CAUTION]
-> Inspect the `install.ps1` script before running. Do not use raw branch paths for production environments. Prefer versioned releases (e.g. `v0.1.0`).
+**Windows (PowerShell):**
 ```powershell
-iwr https://raw.githubusercontent.com/Priyanshuf1/cineforge-ai-skills/v0.1.0/installers/install.ps1 -useb | iex
+git clone https://github.com/Priyanshuf1/cineforge-ai-skills.git
+cd cineforge-ai-skills
+$env:CINEFORGE_SOURCE_DIR = $PWD.Path
+.\installers\install.ps1 -target antigravity
 ```
 
 ## Available Presets

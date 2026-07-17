@@ -21,4 +21,4 @@ jobs:
 
       - name: Check Markdown links
         run: |
-          find . -name \*.md -not -path "*/node_modules/*" -not -path "*/dist/*" -exec markdown-link-check -q {} +
+          find . -name \*.md -not -path "*/node_modules/*" -not -path "*/dist/*" -exec markdown-link-check -q -c mlc_config.json {} +

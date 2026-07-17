@@ -22,6 +22,16 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
+      - name: Build Docs for Preview Artifact
+        run: npm run docs:build -w website
+
+      - name: Upload Pages Preview Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-preview-artifact
+          path: website/source/.vitepress/dist/
+          retention-days: 7
+
       - name: Run Playwright tests
         run: npm run test:e2e -w website
 
