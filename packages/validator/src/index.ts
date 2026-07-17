@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 
 export class RegistryValidator {
-  private ajv: Ajv;
+  private ajv: any;
   private schema: any;
 
   constructor(schemaPath: string) {
