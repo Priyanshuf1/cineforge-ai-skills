@@ -2,11 +2,9 @@ name: Installer Matrix
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main, master ]
   pull_request:
-    branches:
-      - main
+    branches: [ main, master ]
 
 jobs:
   test-installers:
@@ -26,6 +24,8 @@ jobs:
           
       - name: Run Installer (Linux/macOS)
         if: runner.os != 'Windows'
+        env:
+          CINEFORGE_SOURCE_DIR: ${{ github.workspace }}
         run: |
           chmod +x installers/install.sh
           ./installers/install.sh
@@ -35,6 +35,8 @@ jobs:
       - name: Run Installer (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
+        env:
+          CINEFORGE_SOURCE_DIR: ${{ github.workspace }}
         run: |
           ./installers/install.ps1
           $env:PATH += ";$env:USERPROFILE\.local\bin"

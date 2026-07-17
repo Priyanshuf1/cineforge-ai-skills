@@ -7,18 +7,24 @@ INSTALL_DIR="$HOME/.local/share/cineforge"
 BIN_DIR="$HOME/.local/bin"
 
 echo "Checking dependencies (git, npm)..."
-if ! command -v git &> /dev/null; then
-    echo "Error: git is required."
-    exit 1
-fi
 if ! command -v npm &> /dev/null; then
     echo "Error: npm is required."
     exit 1
 fi
 
-echo "Cloning repository to $INSTALL_DIR..."
 rm -rf "$INSTALL_DIR"
-git clone --depth 1 https://github.com/Priyanshuf1/cineforge-ai-skills.git "$INSTALL_DIR"
+
+if [ -n "$CINEFORGE_SOURCE_DIR" ]; then
+    echo "Using local source from $CINEFORGE_SOURCE_DIR"
+    cp -r "$CINEFORGE_SOURCE_DIR" "$INSTALL_DIR"
+else
+    if ! command -v git &> /dev/null; then
+        echo "Error: git is required when downloading from remote."
+        exit 1
+    fi
+    echo "Cloning repository to $INSTALL_DIR..."
+    git clone --depth 1 https://github.com/Priyanshuf1/cineforge-ai-skills.git "$INSTALL_DIR"
+fi
 
 cd "$INSTALL_DIR"
 echo "Installing dependencies..."

@@ -56,21 +56,27 @@ cineforge install --target antigravity --preset cinematic-web
 > [!CAUTION]
 > Inspect the `install.sh` script before running.
 ```bash
-curl -sSL https://raw.githubusercontent.com/Priyanshuf1/cineforge-ai-skills/main/installers/install.sh | bash
+curl -sSL https://raw.githubusercontent.com/Priyanshuf1/cineforge-ai-skills/master/installers/install.sh | bash
 ```
 
 ### Method 5: PowerShell Installers (Windows)
 > [!CAUTION]
 > Inspect the `install.ps1` script before running.
 ```powershell
-iwr https://raw.githubusercontent.com/Priyanshuf1/cineforge-ai-skills/main/installers/install.ps1 -useb | iex
+iwr https://raw.githubusercontent.com/Priyanshuf1/cineforge-ai-skills/master/installers/install.ps1 -useb | iex
 ```
 
 ## Available Presets
-- `cinematic-web`: Core typography, scroll, and compositing skills. (STABLE)
-- `anime-vfx`: Impact frames, particle systems, and slashes. (BETA)
-- `threejs`: R3F, shaders, cel-shading, and 3D modeling. (BETA)
-- `scroll-experience`: Single-window video scrub storytelling. (EXPERIMENTAL)
+
+Defined in `registry/presets.json`. Pass preset name to `--preset`:
+
+- `cinematic-web` — Cinematic scroll, typography, camera (EXPERIMENTAL)
+- `anime-vfx` — Impact frames, particle systems, slashes (EXPERIMENTAL)
+- `threejs-starter` — R3F, shaders, cel-shading, 3D models (EXPERIMENTAL)
+- `performance` — Responsive scene, VFX, glTF optimization (EXPERIMENTAL)
+
+> [!NOTE]
+> All presets are EXPERIMENTAL in v0.1.0. Stable releases require full example verification.
 
 ## Documentation
 Full documentation is available at [https://Priyanshuf1.github.io/cineforge-ai-skills](https://Priyanshuf1.github.io/cineforge-ai-skills).

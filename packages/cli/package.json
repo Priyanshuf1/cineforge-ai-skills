@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "test": "vitest run"
+    "test": "tsc && vitest run"
   },
   "dependencies": {
     "chalk": "^5.3.0",

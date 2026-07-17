@@ -6,8 +6,8 @@
     "docs:dev": "vitepress dev source",
     "docs:build": "vitepress build source",
     "docs:preview": "vitepress preview source",
-    "test": "echo 'Website tests verified in CI'",
-    "build": "echo 'Website build verified in CI'"
+    "test": "vitepress build source",
+    "build": "vitepress build source"
   },
   "devDependencies": {
     "vitepress": "^1.2.2",

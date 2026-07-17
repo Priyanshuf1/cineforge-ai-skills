@@ -1,0 +1,42 @@
+{
+  "cinematic-web": {
+    "description": "Cinematic scroll, typography and camera effects",
+    "skills": [
+      "cinematic-camera-direction",
+      "cinematic-web-typography",
+      "gsap-motion-direction",
+      "gsap-splittext-choreography",
+      "single-viewport-scroll-storytelling",
+      "scroll-video-and-frame-sequences"
+    ]
+  },
+  "anime-vfx": {
+    "description": "High-energy anime VFX and impact effects",
+    "skills": [
+      "anime-cel-shading",
+      "anime-impact-frame-system",
+      "anime-motion-principles",
+      "anime-particle-systems",
+      "anime-title-impact-animation",
+      "energy-slash-and-trail-effects"
+    ]
+  },
+  "threejs-starter": {
+    "description": "React Three Fiber / Three.js foundations",
+    "skills": [
+      "react-three-fiber-cinematic-scenes",
+      "threejs-foundations",
+      "glsl-shader-effects",
+      "postprocessing-and-colour-grading",
+      "interactive-3d-models"
+    ]
+  },
+  "performance": {
+    "description": "Performance and responsiveness",
+    "skills": [
+      "responsive-scene-composition",
+      "responsive-vfx-performance",
+      "gltf-asset-optimization"
+    ]
+  }
+}

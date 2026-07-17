@@ -5,20 +5,26 @@ Write-Host "CineForge AI Skills - PowerShell Installer"
 $InstallDir = "$env:USERPROFILE\.local\share\cineforge"
 $BinDir = "$env:USERPROFILE\.local\bin"
 
-if (-not (Get-Command "git" -ErrorAction SilentlyContinue)) {
-    Write-Error "git is required but not found."
-    exit 1
-}
 if (-not (Get-Command "npm" -ErrorAction SilentlyContinue)) {
     Write-Error "npm is required but not found."
     exit 1
 }
 
-Write-Host "Cloning repository to $InstallDir..."
 if (Test-Path $InstallDir) {
     Remove-Item -Recurse -Force $InstallDir
 }
-git clone --depth 1 https://github.com/Priyanshuf1/cineforge-ai-skills.git $InstallDir
+
+if ($env:CINEFORGE_SOURCE_DIR) {
+    Write-Host "Using local source from $env:CINEFORGE_SOURCE_DIR"
+    Copy-Item -Path $env:CINEFORGE_SOURCE_DIR -Destination $InstallDir -Recurse
+} else {
+    if (-not (Get-Command "git" -ErrorAction SilentlyContinue)) {
+        Write-Error "git is required but not found."
+        exit 1
+    }
+    Write-Host "Cloning repository to $InstallDir..."
+    git clone --depth 1 https://github.com/Priyanshuf1/cineforge-ai-skills.git $InstallDir
+}
 
 Set-Location $InstallDir
 Write-Host "Installing dependencies..."
