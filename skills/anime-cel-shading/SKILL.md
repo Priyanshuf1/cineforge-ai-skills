@@ -1,5 +1,8 @@
 ---
 name: anime-cel-shading
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Implements toon/cel shading materials for 3D models. Activate when aiming for a stylized, non-photorealistic 3D look.
 ---
 

@@ -1,5 +1,8 @@
 ---
 name: cinematic-camera-direction
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Controls 3D camera movement, framing, and transitions. Activate when animating camera paths or interpolating views.
 ---
 

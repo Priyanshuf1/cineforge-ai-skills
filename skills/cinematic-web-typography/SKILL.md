@@ -1,5 +1,8 @@
 ---
 name: cinematic-web-typography
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Implements high-end typographic scales, pairings, and layout for web. Activate when styling text elements for a cinematic or editorial feel.
 ---
 

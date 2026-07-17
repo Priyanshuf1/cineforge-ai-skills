@@ -18,8 +18,5 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run lint
-      continue-on-error: true
     - run: npm run build --workspaces
-      continue-on-error: true
-    - run: node scripts/validate-skills.mjs
-      continue-on-error: true
+    - run: npm run test --workspaces

@@ -1,5 +1,8 @@
 ---
 name: pixijs-2d-vfx
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Utilizes PixiJS for high-performance 2D WebGL effects like displacement maps or sprite particles. Activate for 2D WebGL VFX.
 ---
 

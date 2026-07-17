@@ -1,5 +1,8 @@
 ---
 name: rive-interactive-vector-graphics
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Integrates Rive state machines for interactive vector animations. Activate for complex, state-driven 2D illustrations.
 ---
 

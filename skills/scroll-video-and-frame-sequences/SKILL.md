@@ -1,5 +1,8 @@
 ---
 name: scroll-video-and-frame-sequences
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Synchronizes video playback or image sequence drawing with scroll position. Activate when scrub-animating media sequences.
 ---
 

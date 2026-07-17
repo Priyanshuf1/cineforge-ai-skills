@@ -1,5 +1,8 @@
 ---
 name: responsive-vfx-performance
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Manages pixel ratio, asset LOD, and effect toggling based on device capabilities. Activate to ensure smooth frame rates.
 ---
 

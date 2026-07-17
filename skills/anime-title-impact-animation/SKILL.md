@@ -1,5 +1,8 @@
 ---
 name: anime-title-impact-animation
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Creates dramatic, large-scale title reveals with screen shake or impact frames. Activate for hero section typographic impacts.
 ---
 

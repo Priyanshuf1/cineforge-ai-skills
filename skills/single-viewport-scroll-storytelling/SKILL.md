@@ -1,5 +1,8 @@
 ---
 name: single-viewport-scroll-storytelling
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Builds immersive scroll-driven experiences that feel pinned or fixed. Activate when user scroll controls timeline progress rather than native scrolling.
 ---
 

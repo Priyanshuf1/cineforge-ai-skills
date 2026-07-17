@@ -1,5 +1,8 @@
 ---
 name: gltf-asset-optimization
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Compresses and optimizes 3D assets for fast web delivery. Activate before deploying heavy 3D models.
 ---
 

@@ -1,5 +1,8 @@
 ---
 name: visual-browser-qa
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Checklist and procedures for cross-browser visual verification of WebGL and advanced CSS. Activate before finalizing a feature.
 ---
 

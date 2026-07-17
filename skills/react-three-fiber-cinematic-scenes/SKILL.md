@@ -1,5 +1,8 @@
 ---
 name: react-three-fiber-cinematic-scenes
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Builds declarative 3D scenes using R3F. Activate when integrating Three.js within a React application.
 ---
 

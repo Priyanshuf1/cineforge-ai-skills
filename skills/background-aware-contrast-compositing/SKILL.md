@@ -1,5 +1,8 @@
 ---
 name: background-aware-contrast-compositing
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Ensures text and UI elements remain legible over dynamic, moving, or 3D backgrounds. Activate when placing content over video or WebGL canvases.
 ---
 

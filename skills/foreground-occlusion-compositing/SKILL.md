@@ -1,5 +1,8 @@
 ---
 name: foreground-occlusion-compositing
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Integrates foreground DOM elements seamlessly with background 3D or video scenes to create depth. Activate when layering UI with 3D.
 ---
 

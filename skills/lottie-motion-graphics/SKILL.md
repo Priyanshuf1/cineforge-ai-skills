@@ -1,5 +1,8 @@
 ---
 name: lottie-motion-graphics
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Implements After Effects exported animations using Lottie. Activate for pre-rendered vector animations without complex state.
 ---
 

@@ -1,5 +1,8 @@
 ---
 name: gsap-motion-direction
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Orchestrates complex UI animations, layout transitions, and timeline sequences. Activate when building multi-step animations or interactive UI motion.
 ---
 

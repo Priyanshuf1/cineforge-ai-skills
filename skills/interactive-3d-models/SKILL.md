@@ -1,5 +1,8 @@
 ---
 name: interactive-3d-models
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Handles loading, playing animations, and interacting with 3D models (glTF). Activate when incorporating external 3D assets.
 ---
 

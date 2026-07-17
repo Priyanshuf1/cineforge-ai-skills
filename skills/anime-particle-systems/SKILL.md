@@ -1,5 +1,8 @@
 ---
 name: anime-particle-systems
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Creates stylized particle emissions like sparks, cherry blossoms, or energy dust. Activate when generating 2D or 3D particle bursts.
 ---
 

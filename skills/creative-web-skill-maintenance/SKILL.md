@@ -1,5 +1,8 @@
 ---
 name: creative-web-skill-maintenance
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Guidelines for updating and expanding this very skill library. Activate when authoring new skills.
 ---
 

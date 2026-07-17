@@ -1,5 +1,8 @@
 ---
 name: svg-motion-graphics
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Animates vector graphics for loaders, icons, and illustrations. Activate when drawing SVG paths or morphing shapes.
 ---
 

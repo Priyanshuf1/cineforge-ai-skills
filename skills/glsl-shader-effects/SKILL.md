@@ -1,5 +1,8 @@
 ---
 name: glsl-shader-effects
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Authors custom vertex and fragment shaders for unique materials and distortions. Activate when standard 3D materials are insufficient.
 ---
 

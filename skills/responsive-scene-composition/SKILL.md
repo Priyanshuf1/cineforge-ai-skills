@@ -1,5 +1,8 @@
 ---
 name: responsive-scene-composition
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Handles layout and positioning of 3D and 2D elements across different screen sizes. Activate when ensuring a scene looks good on both desktop and mobile.
 ---
 

@@ -1,5 +1,8 @@
 ---
 name: postprocessing-and-colour-grading
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Applies full-screen WebGL effects like bloom, depth of field, and color correction. Activate to enhance 3D scene visual quality.
 ---
 

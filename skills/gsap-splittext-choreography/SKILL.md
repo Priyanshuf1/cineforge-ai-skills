@@ -1,5 +1,8 @@
 ---
 name: gsap-splittext-choreography
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Creates intricate text reveal and typographic animations. Activate when animating individual words, lines, or characters of text.
 ---
 

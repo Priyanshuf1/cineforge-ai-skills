@@ -1,5 +1,8 @@
 ---
 name: creative-web-art-direction
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Guides overall visual direction, color harmony, and mood for premium web experiences. Activate when establishing the initial design system or visual theme.
 ---
 

@@ -1,5 +1,8 @@
 ---
 name: anime-impact-frame-system
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Implements high-contrast, brief flash frames to emphasize powerful animations. Activate to add 'punch' to significant interactions.
 ---
 

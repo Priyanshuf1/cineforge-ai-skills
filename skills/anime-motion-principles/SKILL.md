@@ -1,5 +1,8 @@
 ---
 name: anime-motion-principles
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Applies traditional anime timing, spacing, and anticipation to web elements. Activate when creating energetic, stylized UI motion.
 ---
 

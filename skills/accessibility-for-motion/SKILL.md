@@ -1,5 +1,8 @@
 ---
 name: accessibility-for-motion
+status: EXPERIMENTAL
+version: 0.1.0
+categories: ["creative-web"]
 description: Ensures animations respect user preferences (prefers-reduced-motion) and are keyboard accessible. Activate on every interactive project.
 ---
 
