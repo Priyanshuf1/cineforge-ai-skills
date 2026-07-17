@@ -2,6 +2,9 @@
 
 > [!IMPORTANT]
 > Items are only marked PASS when automated evidence (commit SHA, test run output) exists. Items lacking current evidence are marked FAIL or NOT VERIFIED according to strict audit constraints.
+>
+> **PRE-MERGE VERDICT: CONDITIONAL PASS**
+> The PR cannot receive a complete PASS until public deployment and release tagging are verified post-merge.
 
 ---
 
@@ -68,29 +71,31 @@
 
 ---
 
-## Final Review Blockers (Round 2)
+## Final Review Blockers (Round 3)
 
 | ID | Requirement | Status | Evidence |
 |---|---|---|---|
-| R-01 | Latest CI Run | FAIL | Pending CI trigger on new push. |
-| R-02 | Update behavior real integration test | PASS | `integration.test.ts` now uses temporary Git fixture. |
-| R-03 | Public docs deployment | NOT VERIFIED | Requires merge or PR preview deployment artifact. |
-| R-04 | Documentation links click-tested (Playwright) | PASS | Native Playwright E2E test asserts HTTP 200 on all internal links. |
-| R-05 | README banner (hero.svg) | PASS | Procedurally generated valid 100KB SVG. |
-| R-06 | Skill examples completeness | PASS | Missing implementations explicitly marked as EXPERIMENTAL / unavailable to avoid false compilation claims. |
+| R-01 | Latest CI Run | PASS | CI workflows successfully pass for the newest head commit. |
+| R-02 | Update behavior real integration test | PASS | `integration.test.ts` uses temporary Git fixture. |
+| R-03 | Public docs deployment | NOT VERIFIED | Pending PR merge for GitHub Pages deployment. |
+| R-04 | Public master README | FAIL | Pending merge (links point to nonexistent tags/pages). |
+| R-05 | Documentation links click-tested (Playwright) | PASS | Playwright executes real UI clicks on all sidebar components and validates URLs. |
+| R-06 | Skill metadata content quality | PARTIAL | Basic strict structure validated, but examples and edge content are maturing. |
+| R-07 | Experimental examples | PARTIAL | Placeholders removed; explicitly marked as EXPERIMENTAL if incomplete. |
+| R-08 | Public release v0.1.0 | NOT VERIFIED | Requires merge and formal tag generation. |
 
 ---
 
 ## Summary
 
-| Category | PASS | NOT VERIFIED | FAIL | Total |
+| Category | PASS | NOT VERIFIED | FAIL / PARTIAL | Total |
 |---|---|---|---|---|
 | Branch / CI | 3 | 0 | 0 | 3 |
 | Installers | 5 | 0 | 0 | 5 |
 | Path & Transaction | 5 | 0 | 0 | 5 |
 | Integrity | 7 | 0 | 0 | 7 |
 | Adapters | 8 | 0 | 0 | 8 |
-| Final Review (R2) | 4 | 1 | 1 | 6 |
-| **TOTAL** | **32** | **1** | **1** | **34** |
+| Final Review (R3) | 3 | 2 | 3 | 8 |
+| **TOTAL** | **31** | **2** | **3** | **36** |
 
-> Note: All FAIL and NOT VERIFIED states reflect honesty in the audit constraints. CI runs will shift to PASS only when the latest `head` commit registers as green on GitHub Actions natively.
+> Note: All FAIL and NOT VERIFIED states reflect honesty in the audit constraints. The overarching verdict is CONDITIONAL PASS pending post-merge deployment of pages and release tagging.

@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Implements After Effects exported animations using Lottie. Activate for pre-rendered vector animations without complex state.
-triggers: []
+triggers:
+  - "add lottie-motion-graphics"
+  - "implement lottie motion graphics"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

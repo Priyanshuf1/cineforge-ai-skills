@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Authors custom vertex and fragment shaders for unique materials and distortions. Activate when standard 3D materials are insufficient.
-triggers: []
+triggers:
+  - "add glsl-shader-effects"
+  - "implement glsl shader effects"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

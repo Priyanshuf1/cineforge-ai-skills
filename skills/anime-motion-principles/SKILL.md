@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Applies traditional anime timing, spacing, and anticipation to web elements. Activate when creating energetic, stylized UI motion.
-triggers: []
+triggers:
+  - "add anime-motion-principles"
+  - "implement anime motion principles"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

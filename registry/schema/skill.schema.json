@@ -7,7 +7,14 @@
     "version",
     "status",
     "description",
-    "categories"
+    "categories",
+    "triggers",
+    "related_skills",
+    "conflicting_skills",
+    "primary_tools",
+    "minimum_inputs",
+    "verification_required",
+    "last_reviewed"
   ],
   "properties": {
     "name": {
@@ -27,13 +34,15 @@
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "minItems": 1
     },
     "triggers": {
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "minItems": 1
     },
     "related_skills": {
       "type": "array",
@@ -51,13 +60,15 @@
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "minItems": 1
     },
     "minimum_inputs": {
       "type": "array",
       "items": {
         "type": "string"
-      }
+      },
+      "minItems": 1
     },
     "verification_required": {
       "type": "boolean"

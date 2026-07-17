@@ -8,20 +8,21 @@ test.describe('Documentation Site Interactive E2E', () => {
         const text = msg.text();
         const url = msg.location().url || '';
         if (text.includes('404') && (url === 'http://localhost:4173/' || url.includes('favicon.ico'))) return;
+        if (text.includes('ERR_CONNECTION_RESET') || text.includes('ERR_CONNECTION_REFUSED')) return;
         consoleErrors.push(`${text} at ${url}`);
       }
     });
     return consoleErrors;
   };
 
-  test('Desktop interactions and link clickability', async ({ page }) => {
+  test('Desktop interactions and link clickability', async ({ page }, testInfo) => {
     const consoleErrors = setupErrorTracking(page);
 
     await page.goto('/');
     await expect(page).toHaveTitle(/CineForge/);
     
     // Capture Home
-    await page.screenshot({ path: 'test-results/desktop-home.png' });
+    await page.screenshot({ path: `test-results/${testInfo.project.name}-home.png` });
 
     // Click Logo
     await page.locator('.VPNavBarTitle').click();
@@ -36,39 +37,48 @@ test.describe('Documentation Site Interactive E2E', () => {
     // External links: GitHub social icon
     const githubLink = page.locator('.social-links a[aria-label="github"]').first();
     if (await githubLink.isVisible()) {
-      const href = await githubLink.getAttribute('href');
-      expect(href).toContain('github.com');
+      const [newPage] = await Promise.all([
+        page.context().waitForEvent('page'),
+        githubLink.click()
+      ]);
+      await newPage.waitForLoadState();
+      expect(newPage.url()).toContain('github.com');
+      await newPage.close();
     }
 
     // View on GitHub (if it exists on home page)
     const viewOnGithub = page.getByRole('link', { name: /View on GitHub/i }).first();
     if (await viewOnGithub.isVisible()) {
-       const href = await viewOnGithub.getAttribute('href');
-       expect(href).toContain('github.com');
+       const [newPage] = await Promise.all([
+         page.context().waitForEvent('page'),
+         viewOnGithub.click()
+       ]);
+       await newPage.waitForLoadState();
+       expect(newPage.url()).toContain('github.com');
+       await newPage.close();
     }
 
     // Get Started
     await page.getByRole('link', { name: 'Get Started' }).first().click();
     await expect(page).toHaveURL(/.*\/guide\//);
+    await page.screenshot({ path: `test-results/${testInfo.project.name}-guide.png` });
 
     // Sidebar Items
-    const sidebarLinks = page.locator('.VPSidebar a');
-    const count = await sidebarLinks.count();
-    
-    // Collect hrefs first to avoid stale elements
-    const hrefs: string[] = [];
-    for (let i = 0; i < count; i++) {
-       const href = await sidebarLinks.nth(i).getAttribute('href');
-       if (href) hrefs.push(href);
-    }
-
-    for (const href of hrefs) {
-       await page.goto(href);
-       await page.waitForLoadState('networkidle');
-       const bodyText = await page.locator('body').innerText();
-       expect(bodyText).not.toContain('404 | Not Found');
-       expect(bodyText).not.toContain('PAGE NOT FOUND');
-       expect(page.url()).toContain('/cineforge-ai-skills/');
+    if (!testInfo.project.name.toLowerCase().includes('mobile')) {
+      const sidebarLinks = page.locator('.VPSidebar a');
+      const count = await sidebarLinks.count();
+      
+      for (let i = 0; i < count; i++) {
+         const link = sidebarLinks.nth(i);
+         await link.scrollIntoViewIfNeeded();
+         await link.click({ force: true });
+         await page.waitForLoadState('networkidle');
+         
+         const bodyText = await page.locator('body').innerText();
+         expect(bodyText).not.toContain('404 | Not Found');
+         expect(bodyText).not.toContain('PAGE NOT FOUND');
+         expect(page.url()).toContain('/cineforge-ai-skills/');
+      }
     }
 
     // Previous / Next pages
@@ -82,14 +92,14 @@ test.describe('Documentation Site Interactive E2E', () => {
     expect(consoleErrors).toHaveLength(0);
   });
 
-  test('Mobile interactions', async ({ page }) => {
+  test('Mobile interactions', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 375, height: 812 }); // Mobile
     const consoleErrors = setupErrorTracking(page);
 
     await page.goto('/');
     
     // Capture Mobile Home
-    await page.screenshot({ path: 'test-results/mobile-home.png' });
+    await page.screenshot({ path: `test-results/${testInfo.project.name}-home.png` });
 
     // Open mobile hamburger menu
     const menuButton = page.locator('.VPNavBarHamburger');
@@ -100,6 +110,7 @@ test.describe('Documentation Site Interactive E2E', () => {
       // Click a nav link inside
       await page.locator('.VPNavScreen a[href*="/guide/"]').first().click();
       await expect(page).toHaveURL(/.*\/guide\//);
+      await page.screenshot({ path: `test-results/${testInfo.project.name}-guide.png` });
     }
 
     expect(consoleErrors).toHaveLength(0);

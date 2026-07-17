@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Builds declarative 3D scenes using R3F. Activate when integrating Three.js within a React application.
-triggers: []
+triggers:
+  - "add react-three-fiber-cinematic-scenes"
+  - "implement react three fiber cinematic scenes"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "npm"
+  - "run_command"
+minimum_inputs:
+  - "User provides 3D asset paths or procedural requirements"
+  - "User provides lighting and camera requirements"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

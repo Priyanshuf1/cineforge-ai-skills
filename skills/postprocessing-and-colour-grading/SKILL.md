@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Applies full-screen WebGL effects like bloom, depth of field, and color correction. Activate to enhance 3D scene visual quality.
-triggers: []
+triggers:
+  - "add postprocessing-and-colour-grading"
+  - "implement postprocessing and colour grading"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

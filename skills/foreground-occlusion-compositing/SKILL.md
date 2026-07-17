@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Integrates foreground DOM elements seamlessly with background 3D or video scenes to create depth. Activate when layering UI with 3D.
-triggers: []
+triggers:
+  - "add foreground-occlusion-compositing"
+  - "implement foreground occlusion compositing"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

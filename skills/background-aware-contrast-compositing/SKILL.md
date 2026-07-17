@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Ensures text and UI elements remain legible over dynamic, moving, or 3D backgrounds. Activate when placing content over video or WebGL canvases.
-triggers: []
+triggers:
+  - "add background-aware-contrast-compositing"
+  - "implement background aware contrast compositing"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

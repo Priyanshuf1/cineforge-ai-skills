@@ -12,7 +12,14 @@ describe('RegistryValidator', () => {
       version: '1.0.0',
       status: 'STABLE',
       description: 'A test skill',
-      categories: ['test']
+      categories: ['test'],
+      triggers: ['test trigger'],
+      related_skills: [],
+      conflicting_skills: [],
+      primary_tools: ['test-tool'],
+      minimum_inputs: ['test input'],
+      verification_required: true,
+      last_reviewed: '2026-07-17'
     };
     
     expect(validator.validateSkill(validSkill)).toBe(true);

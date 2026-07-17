@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Utilizes PixiJS for high-performance 2D WebGL effects like displacement maps or sprite particles. Activate for 2D WebGL VFX.
-triggers: []
+triggers:
+  - "add pixijs-2d-vfx"
+  - "implement pixijs 2d vfx"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---

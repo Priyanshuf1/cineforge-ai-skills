@@ -4,11 +4,18 @@ status: EXPERIMENTAL
 version: 0.1.0
 categories: ["creative-web"]
 description: Handles layout and positioning of 3D and 2D elements across different screen sizes. Activate when ensuring a scene looks good on both desktop and mobile.
-triggers: []
+triggers:
+  - "add responsive-scene-composition"
+  - "implement responsive scene composition"
 related_skills: []
 conflicting_skills: []
-primary_tools: []
-minimum_inputs: []
+primary_tools:
+  - "write_to_file"
+  - "replace_file_content"
+  - "run_command"
+minimum_inputs:
+  - "User specifies the desired visual outcome"
+  - "User confirms target project framework"
 verification_required: true
 last_reviewed: "2026-07-17"
 ---
