@@ -13,6 +13,7 @@ if ! command -v npm &> /dev/null; then
 fi
 
 rm -rf "$INSTALL_DIR"
+mkdir -p "$(dirname "$INSTALL_DIR")"
 
 if [ -n "$CINEFORGE_SOURCE_DIR" ]; then
     echo "Using local source from $CINEFORGE_SOURCE_DIR"

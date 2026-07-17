@@ -10,7 +10,7 @@
   "scripts": {
     "setup": "npm run build --workspaces",
     "test": "npm run test --workspaces",
-    "lint": "eslint .",
+    "lint": "npm run lint --workspaces --if-present",
     "format": "prettier --write .",
     "build": "npm run build --workspaces",
     "test:installer": "node scripts/verify-adapters.mjs",

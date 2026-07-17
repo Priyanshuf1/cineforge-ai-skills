@@ -13,6 +13,10 @@ if (-not (Get-Command "npm" -ErrorAction SilentlyContinue)) {
 if (Test-Path $InstallDir) {
     Remove-Item -Recurse -Force $InstallDir
 }
+$parentDir = Split-Path $InstallDir
+if (-not (Test-Path $parentDir)) {
+    New-Item -ItemType Directory -Force -Path $parentDir | Out-Null
+}
 
 if ($env:CINEFORGE_SOURCE_DIR) {
     Write-Host "Using local source from $env:CINEFORGE_SOURCE_DIR"
