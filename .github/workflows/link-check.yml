@@ -1,0 +1,24 @@
+name: Link Check
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install link checker
+        run: npm install -g markdown-link-check
+
+      - name: Check Markdown links
+        run: |
+          find . -name \*.md -not -path "*/node_modules/*" -not -path "*/dist/*" -exec markdown-link-check -q {} +

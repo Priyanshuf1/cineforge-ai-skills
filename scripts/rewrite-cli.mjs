@@ -72,7 +72,9 @@ function getTargetDir(target: string, scope: string): string {
 interface ManifestEntry {
   installedAt: string;
   updatedAt?: string;
-  sourceHash: string;
+  installedSourceHash: string;
+  lastVerifiedInstalledHash: string;
+  upstreamHash: string;
   backupPath?: string;
   owner: string;
 }
@@ -105,16 +107,14 @@ function hashDir(dirPath: string): string {
   return hash.digest('hex');
 }
 
-function verifyModified(manifest: Manifest, skill: string, destPath: string, force: boolean): void {
+function checkModified(manifest: Manifest, skill: string, destPath: string): boolean {
   const entry = manifest.installed[skill];
-  if (!entry) return;
+  if (!entry) return false;
   const currentHash = hashDir(destPath);
-  if (currentHash !== '' && currentHash !== entry.sourceHash) {
-    if (!force) {
-      throw new Error(\`Skill '\${skill}' has been modified locally. Use --force to overwrite.\`);
-    }
-    console.warn(\`Warning: Overwriting locally modified skill '\${skill}' due to --force.\`);
+  if (currentHash !== '' && currentHash !== entry.installedSourceHash) {
+    return true; // modified
   }
+  return false;
 }
 
 // ─── COMMANDS ──────────────────────────────────────────────────────────────────
@@ -148,7 +148,6 @@ program
     const manifestPath = path.join(targetDir, '.cineforge-manifest.json');
     const manifest = await readManifest(manifestPath, targetAgent, options.scope);
 
-    // Transactional Staging
     const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-stage-'));
     try {
       for (const skill of skillsToInstall) {
@@ -164,11 +163,12 @@ program
           throw new Error(\`Security: \${e.message}\`);
         }
 
-        verifyModified(manifest, skill, destPath, options.force);
+        if (checkModified(manifest, skill, destPath) && !options.force) {
+          throw new Error(\`Skill '\${skill}' has been modified locally. Use --force to overwrite.\`);
+        }
         await fs.copy(sourcePath, path.join(stagingDir, skill));
       }
 
-      // Apply
       if (!options.dryRun) {
         for (const skill of skillsToInstall) {
           const destPath = safeJoin(targetDir, skill);
@@ -182,7 +182,9 @@ program
           manifest.installed[skill] = {
             installedAt: manifest.installed[skill]?.installedAt ?? new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            sourceHash,
+            installedSourceHash: sourceHash,
+            lastVerifiedInstalledHash: sourceHash,
+            upstreamHash: sourceHash,
             backupPath: manifest.installed[skill]?.backupPath,
             owner: 'cineforge',
           };
@@ -221,7 +223,9 @@ program
       let destPath: string;
       try {
         destPath = safeJoin(targetDir, skill);
-        verifyModified(manifest, skill, destPath, options.force);
+        if (checkModified(manifest, skill, destPath) && !options.force) {
+          throw new Error(\`Skill '\${skill}' has been modified locally. Use --force to overwrite.\`);
+        }
       } catch (e: any) {
         console.error(e.message);
         process.exit(1);
@@ -281,17 +285,29 @@ program
       const toUpdate = [];
       for (const skill of Object.keys(manifest.installed)) {
         const localEntry = manifest.installed[skill];
-        const remoteHash = remoteChecksums[skill];
-        if (!remoteHash) continue;
-        if (localEntry.sourceHash !== remoteHash) {
+        const upstreamHash = remoteChecksums[skill];
+        if (!upstreamHash) continue;
+        
+        localEntry.upstreamHash = upstreamHash; // Record the latest known upstream
+
+        // 1. Check if user modified local files
+        const destPath = safeJoin(targetDir, skill);
+        const isModified = checkModified(manifest, skill, destPath);
+
+        // 2. Check if an upstream update actually exists compared to what we originally installed
+        const isOutdated = (localEntry.installedSourceHash !== upstreamHash);
+
+        if (isOutdated) {
+          if (isModified && !options.force) {
+             console.warn(\`Update failed: Skill '\${skill}' has been modified locally. Use --force to overwrite.\`);
+             throw new Error(\`Skill '\${skill}' has been modified locally. Use --force to overwrite.\`);
+          }
+
           const sourcePath = path.join(cloneDir, 'skills', skill);
           if (!fs.existsSync(sourcePath)) continue;
           
-          const destPath = safeJoin(targetDir, skill);
-          verifyModified(manifest, skill, destPath, options.force);
-          
           await fs.copy(sourcePath, path.join(stagingDir, skill));
-          toUpdate.push({ skill, destPath, remoteHash });
+          toUpdate.push({ skill, destPath, remoteHash: upstreamHash });
         }
       }
 
@@ -302,7 +318,8 @@ program
           manifest.installed[item.skill].backupPath = backupPath;
         }
         await fs.copy(path.join(stagingDir, item.skill), item.destPath, { overwrite: true });
-        manifest.installed[item.skill].sourceHash = item.remoteHash;
+        manifest.installed[item.skill].installedSourceHash = item.remoteHash;
+        manifest.installed[item.skill].lastVerifiedInstalledHash = item.remoteHash;
         manifest.installed[item.skill].updatedAt = new Date().toISOString();
         updatedCount++;
       }
