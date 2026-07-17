@@ -5,7 +5,9 @@
   "scripts": {
     "docs:dev": "vitepress dev source",
     "docs:build": "vitepress build source",
-    "docs:preview": "vitepress preview source"
+    "docs:preview": "vitepress preview source",
+    "test": "echo 'No tests yet'",
+    "build": "echo 'No build yet'"
   },
   "devDependencies": {
     "vitepress": "^1.2.2",
