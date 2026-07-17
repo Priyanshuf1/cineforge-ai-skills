@@ -1,4 +1,7 @@
-#!/usr/bin/env node
+import fs from 'fs-extra';
+import path from 'path';
+
+const content = `#!/usr/bin/env node
 import { Command } from 'commander';
 import fs from 'fs-extra';
 import path from 'path';
@@ -25,14 +28,14 @@ program
 // ─── SECURITY: Boundary-safe path join ────────────────────────────────────────
 function safeJoin(base: string, target: string): string {
   if (!/^[a-zA-Z0-9-_]+$/.test(target)) {
-    throw new Error(`Invalid skill ID format: "${target}"`);
+    throw new Error(\`Invalid skill ID format: "\${target}"\`);
   }
   const resolvedBase = fs.existsSync(base) ? fs.realpathSync(base) : path.resolve(base);
   const candidate = path.resolve(resolvedBase, target);
   const resolvedCandidate = fs.existsSync(candidate) ? fs.realpathSync(candidate) : candidate;
   const rel = path.relative(resolvedBase, resolvedCandidate);
   if (rel.startsWith('..') || path.isAbsolute(rel)) {
-    throw new Error(`Path traversal detected: "${target}" escapes base "${base}"`);
+    throw new Error(\`Path traversal detected: "\${target}" escapes base "\${base}"\`);
   }
   return resolvedCandidate;
 }
@@ -58,10 +61,10 @@ const ADAPTERS: Record<string, { path: (scope: string) => string; verified: bool
 function getTargetDir(target: string, scope: string): string {
   const adapter = ADAPTERS[target];
   if (!adapter) {
-    console.error(`Error: Unknown target '${target}'. Run 'cineforge adapters' to see supported targets.`);
+    console.error(\`Error: Unknown target '\${target}'. Run 'cineforge adapters' to see supported targets.\`);
     process.exit(1);
   }
-  if (!adapter.verified) console.warn(`Warning: ${adapter.note}`);
+  if (!adapter.verified) console.warn(\`Warning: \${adapter.note}\`);
   return adapter.path(scope);
 }
 
@@ -108,9 +111,9 @@ function verifyModified(manifest: Manifest, skill: string, destPath: string, for
   const currentHash = hashDir(destPath);
   if (currentHash !== '' && currentHash !== entry.sourceHash) {
     if (!force) {
-      throw new Error(`Skill '${skill}' has been modified locally. Use --force to overwrite.`);
+      throw new Error(\`Skill '\${skill}' has been modified locally. Use --force to overwrite.\`);
     }
-    console.warn(`Warning: Overwriting locally modified skill '${skill}' due to --force.`);
+    console.warn(\`Warning: Overwriting locally modified skill '\${skill}' due to --force.\`);
   }
 }
 
@@ -149,16 +152,16 @@ program
     const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-stage-'));
     try {
       for (const skill of skillsToInstall) {
-        if (!/^[a-zA-Z0-9-_]+$/.test(skill)) throw new Error(`Invalid skill ID: ${skill}`);
+        if (!/^[a-zA-Z0-9-_]+$/.test(skill)) throw new Error(\`Invalid skill ID: \${skill}\`);
         const sourcePath = path.join(SKILLS_DIR, skill);
-        if (!(await fs.pathExists(sourcePath))) throw new Error(`Skill '${skill}' not found in ${SKILLS_DIR}.`);
+        if (!(await fs.pathExists(sourcePath))) throw new Error(\`Skill '\${skill}' not found in \${SKILLS_DIR}.\`);
         
         let destPath: string;
         try {
           await fs.ensureDir(targetDir);
           destPath = safeJoin(targetDir, skill);
         } catch (e: any) {
-          throw new Error(`Security: ${e.message}`);
+          throw new Error(\`Security: \${e.message}\`);
         }
 
         verifyModified(manifest, skill, destPath, options.force);
@@ -171,7 +174,7 @@ program
           const destPath = safeJoin(targetDir, skill);
           const sourceHash = hashDir(path.join(stagingDir, skill));
           if (await fs.pathExists(destPath)) {
-            const backupPath = `${destPath}.backup-${Date.now()}`;
+            const backupPath = \`\${destPath}.backup-\${Date.now()}\`;
             await fs.copy(destPath, backupPath);
             manifest.installed[skill] = { ...manifest.installed[skill], backupPath };
           }
@@ -188,7 +191,7 @@ program
         await fs.writeJson(manifestPath, manifest, { spaces: 2 });
       }
     } catch (e: any) {
-      console.error(`Install failed: ${e.message}. Rolling back.`);
+      console.error(\`Install failed: \${e.message}. Rolling back.\`);
       await fs.remove(stagingDir);
       process.exit(1);
     }
@@ -253,7 +256,7 @@ program
     const remoteRepo = process.env.CINEFORGE_REMOTE_REPO || 'https://github.com/Priyanshuf1/cineforge-ai-skills.git';
     
     const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'cineforge-clone-'));
-    console.log(`Fetching updates from ${remoteRepo}...`);
+    console.log(\`Fetching updates from \${remoteRepo}...\`);
     const r = spawnSync('git', ['clone', '--depth', '1', remoteRepo, cloneDir]);
     if (r.status !== 0) {
       console.error('Update failed: Could not fetch from remote repo.');
@@ -294,7 +297,7 @@ program
 
       for (const item of toUpdate) {
         if (await fs.pathExists(item.destPath)) {
-          const backupPath = `${item.destPath}.backup-${Date.now()}`;
+          const backupPath = \`\${item.destPath}.backup-\${Date.now()}\`;
           await fs.copy(item.destPath, backupPath);
           manifest.installed[item.skill].backupPath = backupPath;
         }
@@ -307,7 +310,7 @@ program
       manifest.updatedAt = new Date().toISOString();
       await fs.writeJson(manifestPath, manifest, { spaces: 2 });
     } catch (e: any) {
-      console.error(`Update failed: ${e.message}. Rolling back.`);
+      console.error(\`Update failed: \${e.message}. Rolling back.\`);
       await fs.remove(stagingDir);
       await fs.remove(cloneDir);
       process.exit(1);
@@ -315,7 +318,7 @@ program
 
     await fs.remove(stagingDir);
     await fs.remove(cloneDir);
-    console.log(`Updated ${updatedCount} skill(s).`);
+    console.log(\`Updated \${updatedCount} skill(s).\`);
   });
 
 program
@@ -325,7 +328,7 @@ program
   .option('-s, --scope <scope>', 'Scope', 'workspace')
   .action(async (options) => {
     const targetDir = getTargetDir(options.target, options.scope);
-    const backupDest = `${targetDir}.backup-${Date.now()}`;
+    const backupDest = \`\${targetDir}.backup-\${Date.now()}\`;
     if (!(await fs.pathExists(targetDir))) process.exit(1);
     await fs.copy(targetDir, backupDest);
     
@@ -341,7 +344,7 @@ program
       originalManifest
     };
     await fs.writeJson(path.join(backupDest, 'backup-manifest.json'), backupManifest, { spaces: 2 });
-    console.log(`Backup created at: ${backupDest}`);
+    console.log(\`Backup created at: \${backupDest}\`);
   });
 
 program
@@ -376,7 +379,7 @@ program.command('list').action(async () => {
   if (!(await fs.pathExists(REGISTRY_PATH))) process.exit(1);
   const registry = await fs.readJson(REGISTRY_PATH);
   for (const [id, meta] of Object.entries(registry.skills) as any) {
-    console.log(`  ${id.padEnd(40)} [${meta.status ?? 'unknown'}]`);
+    console.log(\`  \${id.padEnd(40)} [\${meta.status ?? 'unknown'}]\`);
   }
 });
 program.command('demo').action(() => console.log('cineforge install --preset cinematic-web'));
@@ -391,7 +394,10 @@ program.command('validate').action(async () => {
   console.log('All checksums valid.');
 });
 program.command('info <skill>').action(async (skill: string) => {
-  console.log(`Skill: ${skill}`);
+  console.log(\`Skill: \${skill}\`);
 });
 
 program.parse(process.argv);
+`;
+fs.writeFileSync(path.join(process.cwd(), 'packages/cli/src/bin/cineforge.ts'), content);
+console.log('cineforge.ts rewritten.');
