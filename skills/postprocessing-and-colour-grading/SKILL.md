@@ -7,7 +7,8 @@ description: Applies full-screen WebGL effects like bloom, depth of field, and c
 triggers:
   - "add postprocessing-and-colour-grading"
   - "implement postprocessing and colour grading"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

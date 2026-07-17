@@ -7,7 +7,8 @@ description: Ensures text and UI elements remain legible over dynamic, moving, o
 triggers:
   - "add background-aware-contrast-compositing"
   - "implement background aware contrast compositing"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

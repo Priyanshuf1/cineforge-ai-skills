@@ -7,7 +7,8 @@ description: Uses Theatre.js for visual timeline keyframing of 3D objects and ca
 triggers:
   - "add theatrejs-camera-authoring"
   - "implement theatrejs camera authoring"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

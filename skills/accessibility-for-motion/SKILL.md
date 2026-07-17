@@ -7,7 +7,8 @@ description: Ensures animations respect user preferences (prefers-reduced-motion
 triggers:
   - "add accessibility-for-motion"
   - "implement accessibility for motion"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

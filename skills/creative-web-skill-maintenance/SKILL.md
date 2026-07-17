@@ -7,7 +7,8 @@ description: Guidelines for updating and expanding this very skill library. Acti
 triggers:
   - "add creative-web-skill-maintenance"
   - "implement creative web skill maintenance"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

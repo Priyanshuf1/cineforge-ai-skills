@@ -7,7 +7,8 @@ description: Orchestrates complex UI animations, layout transitions, and timelin
 triggers:
   - "add gsap-motion-direction"
   - "implement gsap motion direction"
-related_skills: []
+related_skills:
+  - "cinematic-camera-direction"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

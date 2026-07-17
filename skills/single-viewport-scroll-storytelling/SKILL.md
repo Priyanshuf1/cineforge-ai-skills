@@ -7,7 +7,8 @@ description: Builds immersive scroll-driven experiences that feel pinned or fixe
 triggers:
   - "add single-viewport-scroll-storytelling"
   - "implement single viewport scroll storytelling"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

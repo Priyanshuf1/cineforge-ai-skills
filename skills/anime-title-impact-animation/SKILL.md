@@ -7,7 +7,8 @@ description: Creates dramatic, large-scale title reveals with screen shake or im
 triggers:
   - "add anime-title-impact-animation"
   - "implement anime title impact animation"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

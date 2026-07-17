@@ -7,7 +7,8 @@ description: Manages pixel ratio, asset LOD, and effect toggling based on device
 triggers:
   - "add responsive-vfx-performance"
   - "implement responsive vfx performance"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

@@ -7,7 +7,8 @@ description: Implements high-contrast, brief flash frames to emphasize powerful 
 triggers:
   - "add anime-impact-frame-system"
   - "implement anime impact frame system"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

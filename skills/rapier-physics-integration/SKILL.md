@@ -7,7 +7,8 @@ description: Adds rigid body physics simulations to 3D scenes. Activate when obj
 triggers:
   - "add rapier-physics-integration"
   - "implement rapier physics integration"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

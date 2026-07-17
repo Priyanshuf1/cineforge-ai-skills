@@ -71,7 +71,7 @@ test.describe('Documentation Site Interactive E2E', () => {
       for (let i = 0; i < count; i++) {
          const link = sidebarLinks.nth(i);
          await link.scrollIntoViewIfNeeded();
-         await link.click({ force: true });
+         await link.click();
          await page.waitForLoadState('networkidle');
          
          const bodyText = await page.locator('body').innerText();

@@ -7,7 +7,8 @@ description: Animates vector graphics for loaders, icons, and illustrations. Act
 triggers:
   - "add svg-motion-graphics"
   - "implement svg motion graphics"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

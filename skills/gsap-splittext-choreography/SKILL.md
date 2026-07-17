@@ -7,7 +7,8 @@ description: Creates intricate text reveal and typographic animations. Activate 
 triggers:
   - "add gsap-splittext-choreography"
   - "implement gsap splittext choreography"
-related_skills: []
+related_skills:
+  - "cinematic-camera-direction"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

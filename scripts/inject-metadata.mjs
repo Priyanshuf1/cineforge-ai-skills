@@ -42,15 +42,24 @@ async function run() {
             // It's an empty array on a single line
             const key = line.split(':')[0].trim();
             if (key === 'triggers') {
-              newLines.push(`triggers:\n  - "add ${skill}"\n  - "implement ${skill.replace(/-/g, ' ')}"`);
+              const friendlyName = skill.replace(/-/g, ' ');
+              newLines.push(`triggers:\n  - "add ${friendlyName}"\n  - "implement ${friendlyName}"\n  - "can you build a ${friendlyName} effect"\n  - "use the ${skill} skill"`);
             } else if (key === 'categories') {
-              const cat = skill.includes('gsap') ? 'animation' : (skill.includes('three') ? '3d' : 'vfx');
-              newLines.push(`categories:\n  - "${cat}"`);
+              const cat = skill.includes('gsap') || skill.includes('motion') ? 'animation' : (skill.includes('three') || skill.includes('gltf') ? '3d' : 'vfx');
+              newLines.push(`categories:\n  - "${cat}"\n  - "web-experience"`);
+            } else if (key === 'related_skills') {
+               // Pseudo-random related skill
+               const rel = skill.includes('three') ? 'gltf-asset-optimization' : (skill.includes('gsap') ? 'cinematic-camera-direction' : 'visual-browser-qa');
+               if (rel !== skill) {
+                 newLines.push(`related_skills:\n  - "${rel}"`);
+               } else {
+                 newLines.push(`related_skills: []`); // Keep empty if same
+               }
             } else if (key === 'primary_tools') {
-              const tools = skill.includes('gsap') ? TOOLS_MAP['gsap'] : (skill.includes('three') ? TOOLS_MAP['threejs'] : TOOLS_MAP['default']);
+              const tools = skill.includes('gsap') ? ['gsap', 'html', 'css'] : (skill.includes('three') ? ['three', '@react-three/fiber'] : ['javascript', 'vite']);
               newLines.push(`primary_tools:\n${tools.map(t => `  - "${t}"`).join('\n')}`);
             } else if (key === 'minimum_inputs') {
-              const inputs = skill.includes('gsap') ? INPUTS_MAP['gsap'] : (skill.includes('three') ? INPUTS_MAP['threejs'] : INPUTS_MAP['default']);
+              const inputs = skill.includes('gsap') ? ['Target DOM element or React ref', 'Desired animation duration and easing'] : (skill.includes('three') ? ['3D model path or geometry requirements', 'Lighting specifications'] : ['High-level visual direction or mood board reference', 'Target element']);
               newLines.push(`minimum_inputs:\n${inputs.map(i => `  - "${i}"`).join('\n')}`);
             } else {
               newLines.push(line);

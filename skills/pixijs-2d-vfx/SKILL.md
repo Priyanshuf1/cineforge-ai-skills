@@ -7,7 +7,8 @@ description: Utilizes PixiJS for high-performance 2D WebGL effects like displace
 triggers:
   - "add pixijs-2d-vfx"
   - "implement pixijs 2d vfx"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

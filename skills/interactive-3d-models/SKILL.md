@@ -7,7 +7,8 @@ description: Handles loading, playing animations, and interacting with 3D models
 triggers:
   - "add interactive-3d-models"
   - "implement interactive 3d models"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

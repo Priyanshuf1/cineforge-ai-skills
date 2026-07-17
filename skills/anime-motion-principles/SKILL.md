@@ -7,7 +7,8 @@ description: Applies traditional anime timing, spacing, and anticipation to web 
 triggers:
   - "add anime-motion-principles"
   - "implement anime motion principles"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

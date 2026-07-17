@@ -7,7 +7,8 @@ description: Synchronizes video playback or image sequence drawing with scroll p
 triggers:
   - "add scroll-video-and-frame-sequences"
   - "implement scroll video and frame sequences"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

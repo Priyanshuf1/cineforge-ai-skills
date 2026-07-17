@@ -7,7 +7,8 @@ description: Handles core Three.js setup including scene, renderer, and basic li
 triggers:
   - "add threejs-foundations"
   - "implement threejs foundations"
-related_skills: []
+related_skills:
+  - "gltf-asset-optimization"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

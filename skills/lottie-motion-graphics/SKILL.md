@@ -7,7 +7,8 @@ description: Implements After Effects exported animations using Lottie. Activate
 triggers:
   - "add lottie-motion-graphics"
   - "implement lottie motion graphics"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

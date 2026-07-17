@@ -7,7 +7,8 @@ description: Builds declarative 3D scenes using R3F. Activate when integrating T
 triggers:
   - "add react-three-fiber-cinematic-scenes"
   - "implement react three fiber cinematic scenes"
-related_skills: []
+related_skills:
+  - "gltf-asset-optimization"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

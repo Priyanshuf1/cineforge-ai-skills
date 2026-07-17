@@ -7,7 +7,8 @@ description: Creates stylized particle emissions like sparks, cherry blossoms, o
 triggers:
   - "add anime-particle-systems"
   - "implement anime particle systems"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

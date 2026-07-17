@@ -5,7 +5,7 @@ This PR implements the core hardening, verification, and automated CI workflows 
 ### Status Truthfulness
 - **Default Branch & PR Base**: `master`
 - **Latest Tested Head SHA**: (Check GitHub Actions)
-- **CI, Installer Matrix, Link Check, and Website Tests**: **PASS** for the latest commit.
+- **Overall Verdict**: **CONDITIONAL PASS** (Pending post-merge public Pages and release tagging verification)
 - **Antigravity Adapter**: **BETA**
 - **Claude Code Adapter**: **EXPERIMENTAL**
 - **Gemini CLI Adapter**: **EXPERIMENTAL**
@@ -18,4 +18,4 @@ This PR implements the core hardening, verification, and automated CI workflows 
 - Enforced strict `safeJoin()` and symlink protections for local environment modification.
 - Setup exhaustive Matrix Testing (Ubuntu, Windows, macOS) against local source code (`CINEFORGE_SOURCE_DIR`).
 - Established strict markdown link-check and Playwright tap-testing for the documentation.
-- Populated foundational strict JSON schema metadata for all 35 skills.
+- Populated foundational strict JSON schema metadata for all 33 skills.

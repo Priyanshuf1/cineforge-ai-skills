@@ -7,7 +7,8 @@ description: Authors custom vertex and fragment shaders for unique materials and
 triggers:
   - "add glsl-shader-effects"
   - "implement glsl shader effects"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

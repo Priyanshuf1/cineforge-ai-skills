@@ -7,7 +7,8 @@ description: Implements motion trails, slashes, and speed lines. Activate for dy
 triggers:
   - "add energy-slash-and-trail-effects"
   - "implement energy slash and trail effects"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

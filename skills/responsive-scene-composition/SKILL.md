@@ -7,7 +7,8 @@ description: Handles layout and positioning of 3D and 2D elements across differe
 triggers:
   - "add responsive-scene-composition"
   - "implement responsive scene composition"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

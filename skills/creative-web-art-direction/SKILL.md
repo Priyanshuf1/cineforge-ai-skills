@@ -7,7 +7,8 @@ description: Guides overall visual direction, color harmony, and mood for premiu
 triggers:
   - "add creative-web-art-direction"
   - "implement creative web art direction"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

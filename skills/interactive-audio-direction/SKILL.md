@@ -7,7 +7,8 @@ description: Manages web audio, sound effects, and spatial audio tied to interac
 triggers:
   - "add interactive-audio-direction"
   - "implement interactive audio direction"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

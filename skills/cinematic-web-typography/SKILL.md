@@ -7,7 +7,8 @@ description: Implements high-end typographic scales, pairings, and layout for we
 triggers:
   - "add cinematic-web-typography"
   - "implement cinematic web typography"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

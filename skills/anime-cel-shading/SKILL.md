@@ -7,7 +7,8 @@ description: Implements toon/cel shading materials for 3D models. Activate when 
 triggers:
   - "add anime-cel-shading"
   - "implement anime cel shading"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

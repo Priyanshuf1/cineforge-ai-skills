@@ -7,7 +7,8 @@ description: Integrates foreground DOM elements seamlessly with background 3D or
 triggers:
   - "add foreground-occlusion-compositing"
   - "implement foreground occlusion compositing"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

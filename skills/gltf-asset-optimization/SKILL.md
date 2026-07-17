@@ -7,7 +7,8 @@ description: Compresses and optimizes 3D assets for fast web delivery. Activate 
 triggers:
   - "add gltf-asset-optimization"
   - "implement gltf asset optimization"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

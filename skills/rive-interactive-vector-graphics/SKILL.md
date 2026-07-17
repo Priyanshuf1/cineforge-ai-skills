@@ -7,7 +7,8 @@ description: Integrates Rive state machines for interactive vector animations. A
 triggers:
   - "add rive-interactive-vector-graphics"
   - "implement rive interactive vector graphics"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"

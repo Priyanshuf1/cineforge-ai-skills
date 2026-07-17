@@ -7,7 +7,8 @@ description: Controls 3D camera movement, framing, and transitions. Activate whe
 triggers:
   - "add cinematic-camera-direction"
   - "implement cinematic camera direction"
-related_skills: []
+related_skills:
+  - "visual-browser-qa"
 conflicting_skills: []
 primary_tools:
   - "write_to_file"
