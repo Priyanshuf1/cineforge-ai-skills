@@ -23,7 +23,7 @@ The safest and most reliable way to install Rabto during its Beta phase is by cl
 
 **macOS / Linux:**
 ```bash
-git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+git clone https://github.com/Priyanshuf1/rabto.git
 cd rabto-ai-skills
 export RABTO_SOURCE_DIR=$(pwd)
 ./installers/install.sh --target antigravity
@@ -31,7 +31,7 @@ export RABTO_SOURCE_DIR=$(pwd)
 
 **Windows (PowerShell):**
 ```powershell
-git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+git clone https://github.com/Priyanshuf1/rabto.git
 cd rabto-ai-skills
 $env:RABTO_SOURCE_DIR = $PWD.Path
 .\installers\install.ps1 -target antigravity
@@ -60,12 +60,12 @@ npx rabto install --target antigravity --preset cinematic-web
 
 **macOS / Linux:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Priyanshuf1/rabto-ai-skills/v0.1.0/installers/install.sh | bash -s -- --target antigravity
+curl -fsSL https://raw.githubusercontent.com/Priyanshuf1/rabto/v0.1.0/installers/install.sh | bash -s -- --target antigravity
 ```
 
 **Windows (PowerShell):**
 ```powershell
-iwr https://raw.githubusercontent.com/Priyanshuf1/rabto-ai-skills/v0.1.0/installers/install.ps1 -useb | iex
+iwr https://raw.githubusercontent.com/Priyanshuf1/rabto/v0.1.0/installers/install.ps1 -useb | iex
 ```
 
 ---

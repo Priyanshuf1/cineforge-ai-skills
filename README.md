@@ -5,7 +5,7 @@
 > **Installable creative-web skills for AI coding agents — GSAP, Three.js, WebGL, PixiJS, cinematic typography, scroll experiences, shaders and VFX.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![CI](https://github.com/Priyanshuf1/rabto-ai-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/Priyanshuf1/rabto-ai-skills/actions)
+[![CI](https://github.com/Priyanshuf1/rabto/actions/workflows/ci.yml/badge.svg)](https://github.com/Priyanshuf1/rabto/actions)
 
 Rabto provides a skill library that teaches AI coding agents to build cinematic, animated, anime-inspired, and real-time 3D web experiences.
 
@@ -36,7 +36,7 @@ Rabto provides a skill library that teaches AI coding agents to build cinematic,
 
 ### Method 1: Clone and Run (Recommended)
 ```bash
-git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+git clone https://github.com/Priyanshuf1/rabto.git
 cd rabto-ai-skills
 npm ci
 npm run setup
@@ -60,7 +60,7 @@ For PR testing, clone this repository and install locally:
 
 **macOS/Linux:**
 ```bash
-git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+git clone https://github.com/Priyanshuf1/rabto.git
 cd rabto-ai-skills
 export RABTO_SOURCE_DIR=$(pwd)
 ./installers/install.sh --target antigravity
@@ -68,7 +68,7 @@ export RABTO_SOURCE_DIR=$(pwd)
 
 **Windows (PowerShell):**
 ```powershell
-git clone https://github.com/Priyanshuf1/rabto-ai-skills.git
+git clone https://github.com/Priyanshuf1/rabto.git
 cd rabto-ai-skills
 $env:RABTO_SOURCE_DIR = $PWD.Path
 .\installers\install.ps1 -target antigravity
@@ -87,7 +87,7 @@ Defined in `registry/presets.json`. Pass preset name to `--preset`:
 > All presets are EXPERIMENTAL in v0.1.0. Stable releases require full example verification.
 
 ## Documentation
-Full documentation is available at [https://Priyanshuf1.github.io/rabto-ai-skills](https://Priyanshuf1.github.io/rabto-ai-skills).
+Full documentation is available at [https://Priyanshuf1.github.io/rabto](https://Priyanshuf1.github.io/rabto).
 
 ## Contributing
 Please see our [CONTRIBUTING.md](./CONTRIBUTING.md) for details on how to add new skills or agent adapters.

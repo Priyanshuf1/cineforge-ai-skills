@@ -6,7 +6,7 @@ fs.ensureDirSync(guideDir);
 
 const pages = [
   { file: 'index.md', title: 'Getting Started', content: '# Getting Started\n\nWelcome to the Rabto AI Skills documentation. This experimental toolkit provides creative-web skills for autonomous agents.\n' },
-  { file: 'installation.md', title: 'Installation', content: '# Installation\n\nFollow the instructions on the [GitHub repository](https://github.com/Priyanshuf1/rabto-ai-skills) for stable releases.\n' },
+  { file: 'installation.md', title: 'Installation', content: '# Installation\n\nFollow the instructions on the [GitHub repository](https://github.com/Priyanshuf1/rabto) for stable releases.\n' },
   { file: 'cli.md', title: 'CLI Reference', content: '# CLI Reference\n\nLearn how to use `rabto install`, `update`, `backup`, and `restore`.\n' },
   { file: 'agents.md', title: 'Supported Agents', content: '# Supported Agents\n\n- Antigravity (Verified)\n- Claude Code (Experimental)\n- Gemini CLI (Experimental)\n' },
   { file: 'presets.md', title: 'Presets', content: '# Presets\n\nInstall groups of skills using `--preset` (e.g. `cinematic-web`).\n' },

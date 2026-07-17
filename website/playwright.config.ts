@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:4173/rabto-ai-skills/',
+    baseURL: 'http://localhost:4173/rabto/',
     trace: 'on-first-retry',
   },
   projects: [
@@ -23,7 +23,7 @@ export default defineConfig({
   ],
   webServer: {
     command: 'npm run docs:build && npm run docs:preview',
-    url: 'http://localhost:4173/rabto-ai-skills/',
+    url: 'http://localhost:4173/rabto/',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },

@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import os from 'os';
 import crypto from 'crypto';
+import { computeDirectoryChecksum } from '../src/utils/checksum';
 
 const PACKAGE_ROOT = path.resolve(__dirname, '..');
 const CLI_DIST = path.join(PACKAGE_ROOT, 'dist', 'bin', 'rabto.js');
@@ -104,19 +105,12 @@ describe('CLI Integration Tests (real temp directories)', () => {
     const targetSkill = path.join(remoteRepo, 'skills', 'threejs-foundations');
     fs.appendFileSync(path.join(targetSkill, 'SKILL.md'), '\nUPSTREAM UPDATE');
     
-    // Regenerate checksums in the remote repo
-    const hash = crypto.createHash('sha256');
-    const files = fs.readdirSync(targetSkill, { withFileTypes: true });
-    for (const f of files.sort((a, b) => a.name.localeCompare(b.name))) {
-      const fPath = path.join(targetSkill, f.name);
-      if (!f.isDirectory()) hash.update(fs.readFileSync(fPath));
-    }
-    const newHash = hash.digest('hex');
+    // Regenerate checksums in the remote repo using the official script
+    spawnSync('node', ['scripts/generate-checksums.mjs'], { cwd: remoteRepo });
     
     const checksumsPath = path.join(remoteRepo, 'registry', 'checksums.json');
     const checksums = fs.readJsonSync(checksumsPath);
-    checksums['threejs-foundations'] = newHash;
-    fs.writeJsonSync(checksumsPath, checksums);
+    const newHash = checksums['threejs-foundations'];
     
     spawnSync('git', ['add', '.'], { cwd: remoteRepo });
     spawnSync('git', ['commit', '-m', 'update'], { cwd: remoteRepo });
@@ -132,6 +126,57 @@ describe('CLI Integration Tests (real temp directories)', () => {
     const manifestPath = path.join(tmpDir, '.agents', 'skills', '.rabto-manifest.json');
     const manifestNew = fs.readJsonSync(manifestPath);
     expect(manifestNew.installed['threejs-foundations'].installedSourceHash).toBe(newHash);
+  });
+
+  it('update rejects mismatched checksums from upstream', () => {
+    const remoteRepo = createTempRemoteRepo();
+    cli(['install', '--skills', 'threejs-foundations', '--target', 'antigravity'], { RABTO_ROOT: remoteRepo }, tmpDir);
+    
+    // Modify checksums.json in remote to point to a fake hash, but don't modify files
+    const checksumsPath = path.join(remoteRepo, 'registry', 'checksums.json');
+    const checksums = fs.readJsonSync(checksumsPath);
+    checksums['threejs-foundations'] = 'fake_hash_123';
+    fs.writeJsonSync(checksumsPath, checksums);
+    
+    spawnSync('git', ['add', '.'], { cwd: remoteRepo });
+    spawnSync('git', ['commit', '-m', 'sneaky update with fake checksum'], { cwd: remoteRepo });
+    
+    const r = cli(['update', '--target', 'antigravity'], {
+      RABTO_REMOTE_REPO: `file://${remoteRepo.replace(/\\/g, '/')}`
+    }, tmpDir);
+    
+    expect(r.status).not.toBe(0);
+    expect(r.stderr).toContain('Checksum mismatch');
+  });
+
+  it('update refuses to overwrite a locally modified skill without --force', async () => {
+    const remoteRepo = createTempRemoteRepo();
+    cli(['install', '--skills', 'threejs-foundations', '--target', 'antigravity'], { RABTO_ROOT: remoteRepo }, tmpDir);
+    
+    // Modify locally
+    const localSkill = path.join(tmpDir, '.agents', 'skills', 'threejs-foundations');
+    fs.appendFileSync(path.join(localSkill, 'SKILL.md'), '\nLOCAL MODIFICATION');
+    
+    // Modify remote
+    const targetSkill = path.join(remoteRepo, 'skills', 'threejs-foundations');
+    fs.appendFileSync(path.join(targetSkill, 'SKILL.md'), '\nUPSTREAM UPDATE');
+    
+    // Regenerate checksum
+    const newHash = await computeDirectoryChecksum(targetSkill);
+    const checksumsPath = path.join(remoteRepo, 'registry', 'checksums.json');
+    const checksums = fs.readJsonSync(checksumsPath);
+    checksums['threejs-foundations'] = newHash;
+    fs.writeJsonSync(checksumsPath, checksums);
+    
+    spawnSync('git', ['add', '.'], { cwd: remoteRepo });
+    spawnSync('git', ['commit', '-m', 'update'], { cwd: remoteRepo });
+    
+    const r = cli(['update', '--target', 'antigravity'], {
+      RABTO_REMOTE_REPO: `file://${remoteRepo.replace(/\\/g, '/')}`
+    }, tmpDir);
+    
+    expect(r.status).not.toBe(0);
+    expect(r.stderr).toContain('modified locally');
   });
 
   it('update handles HTTP/git failure gracefully (offline test)', () => {
@@ -151,7 +196,7 @@ describe('CLI Integration Tests (real temp directories)', () => {
     const backupDirMatch = r.stdout.match(/Backup created at: (.*)/);
     expect(backupDirMatch).toBeTruthy();
     const backupDir = backupDirMatch![1].trim();
-    expect(fs.existsSync(path.join(backupDir, 'backup-manifest.json'))).toBe(true);
+    expect(fs.existsSync(path.join(backupDir, 'backup-metadata.json'))).toBe(true);
 
     fs.emptyDirSync(path.join(tmpDir, '.agents', 'skills'));
     const r2 = cli(['restore', backupDir], {}, tmpDir);

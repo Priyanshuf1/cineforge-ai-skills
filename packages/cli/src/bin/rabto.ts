@@ -5,6 +5,7 @@ import path from 'path';
 import crypto from 'crypto';
 import os from 'os';
 import { spawnSync } from 'child_process';
+import { computeDirectoryChecksum } from '../utils/checksum';
 
 const program = new Command();
 
@@ -58,7 +59,11 @@ const ADAPTERS: Record<string, { path: (scope: string) => string; verified: bool
 function getTargetDir(target: string, scope: string): string {
   const adapter = ADAPTERS[target];
   if (!adapter) {
-    console.error(`Error: Unknown target '${target}'. Run 'rabto adapters' to see supported targets.`);
+    console.error(`Error: Unknown adapter '${target}'. Run 'rabto adapters' to see supported targets.`);
+    process.exit(1);
+  }
+  if (scope !== 'workspace' && scope !== 'global') {
+    console.error(`Error: Invalid scope '${scope}'. Must be 'workspace' or 'global'.`);
     process.exit(1);
   }
   if (!adapter.verified) console.warn(`Warning: ${adapter.note}`);
@@ -89,31 +94,17 @@ async function readManifest(manifestPath: string, agent: string, scope: string):
   return { version: '1', agent, scope, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(), installed: {} };
 }
 
-function hashDir(dirPath: string): string {
-  if (!fs.existsSync(dirPath)) return '';
-  const hash = crypto.createHash('sha256');
-  const files = fs.readdirSync(dirPath, { withFileTypes: true });
-  for (const f of files.sort((a, b) => a.name.localeCompare(b.name))) {
-    const fPath = path.join(dirPath, f.name);
-    if (f.isDirectory()) {
-      hash.update(hashDir(fPath));
-    } else {
-      hash.update(fs.readFileSync(fPath));
-    }
-  }
-  return hash.digest('hex');
-}
-
-function checkModified(manifest: Manifest, skill: string, destPath: string): boolean {
+async function checkModified(manifest: Manifest, skill: string, destPath: string): Promise<boolean> {
   const entry = manifest.installed[skill];
   if (!entry) return false;
-  const currentHash = hashDir(destPath);
+  if (!fs.existsSync(destPath)) return false;
+  const currentHash = await computeDirectoryChecksum(destPath);
+  
   if (currentHash !== '' && currentHash !== entry.installedSourceHash) {
     return true; // modified
   }
   return false;
 }
-
 // ─── COMMANDS ──────────────────────────────────────────────────────────────────
 
 program
@@ -128,25 +119,61 @@ program
   .option('-f, --force', 'Force overwrite modified files')
   .action(async (options) => {
     const targetAgent: string = options.target;
-    if (!ADAPTERS[targetAgent]) process.exit(1);
+    if (!ADAPTERS[targetAgent]) {
+      console.error(`Install failed: Unknown adapter '${targetAgent}'.`);
+      console.error(`Run 'rabto adapters' to see supported targets.`);
+      process.exit(1);
+    }
 
     let skillsToInstall: string[] = options.skills ? options.skills.split(',').map((s: string) => s.trim()) : [];
     if (options.all) {
+      if (!fs.existsSync(SKILLS_DIR)) {
+        console.error(`Install failed: Skills directory not found at ${SKILLS_DIR}.`);
+        process.exit(1);
+      }
       skillsToInstall = await fs.readdir(SKILLS_DIR);
     } else if (options.preset) {
+      if (!fs.existsSync(PRESETS_PATH)) {
+        console.error(`Install failed: Registry presets not found at ${PRESETS_PATH}.`);
+        process.exit(1);
+      }
       const presets = await fs.readJson(PRESETS_PATH);
-      if (!presets[options.preset]) process.exit(1);
+      if (!presets[options.preset]) {
+        console.error(`Install failed: Unknown preset '${options.preset}'.`);
+        process.exit(1);
+      }
       skillsToInstall = presets[options.preset].skills;
     }
 
-    if (skillsToInstall.length === 0) process.exit(1);
+    if (skillsToInstall.length === 0) {
+      console.error(`Install failed: No skills, preset, or --all supplied.`);
+      process.exit(1);
+    }
 
     const targetDir = getTargetDir(targetAgent, options.scope);
     const manifestPath = path.join(targetDir, '.rabto-manifest.json');
     const manifest = await readManifest(manifestPath, targetAgent, options.scope);
 
+    // Dry Run
+    if (options.dryRun) {
+      console.log(`\n--- DRY RUN ---`);
+      console.log(`Target Agent: ${targetAgent}`);
+      console.log(`Scope: ${options.scope}`);
+      console.log(`Destination: ${targetDir}`);
+      console.log(`Skills to install/overwrite:`);
+      for (const skill of skillsToInstall) {
+        console.log(` - ${skill}`);
+      }
+      console.log(`\nDry run complete. No target files were changed.`);
+      return;
+    }
+
     const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-stage-'));
+    // Snapshot state for rollback
+    const rollbackState: { skill: string; destPath: string; backupPath?: string; originalUnmanaged?: boolean }[] = [];
+
     try {
+      // 1. Validate and Stage
       for (const skill of skillsToInstall) {
         if (!/^[a-zA-Z0-9-_]+$/.test(skill)) throw new Error(`Invalid skill ID: ${skill}`);
         const sourcePath = path.join(SKILLS_DIR, skill);
@@ -154,50 +181,88 @@ program
         
         let destPath: string;
         try {
-          await fs.ensureDir(targetDir);
           destPath = safeJoin(targetDir, skill);
         } catch (e: any) {
           throw new Error(`Security: ${e.message}`);
         }
 
-        if (checkModified(manifest, skill, destPath) && !options.force) {
+        const isManaged = manifest.installed[skill] !== undefined;
+        const exists = await fs.pathExists(destPath);
+        
+        if (exists && !isManaged && !options.force) {
+          throw new Error(`Collision: Unmanaged skill '${skill}' already exists at destination. Use --force to replace.`);
+        }
+        
+        if (exists && isManaged && await checkModified(manifest, skill, destPath) && !options.force) {
           throw new Error(`Skill '${skill}' has been modified locally. Use --force to overwrite.`);
         }
+
         await fs.copy(sourcePath, path.join(stagingDir, skill));
       }
 
-      if (!options.dryRun) {
-        for (const skill of skillsToInstall) {
-          const destPath = safeJoin(targetDir, skill);
-          const sourceHash = hashDir(path.join(stagingDir, skill));
-          if (await fs.pathExists(destPath)) {
-            const backupPath = `${destPath}.backup-${Date.now()}`;
-            await fs.copy(destPath, backupPath);
-            manifest.installed[skill] = { ...manifest.installed[skill], backupPath };
+      await fs.ensureDir(targetDir); // only create dest if validation passes
+
+      // 2. Transaction apply
+      for (const skill of skillsToInstall) {
+        const destPath = safeJoin(targetDir, skill);
+        const sourceHash = await computeDirectoryChecksum(path.join(stagingDir, skill));
+        
+        const exists = await fs.pathExists(destPath);
+        const isManaged = manifest.installed[skill] !== undefined;
+        
+        let backupPath;
+        let originalUnmanaged = false;
+
+        if (exists) {
+          backupPath = `${destPath}.backup-${Date.now()}`;
+          await fs.copy(destPath, backupPath);
+          if (!isManaged) {
+            originalUnmanaged = true;
           }
-          await fs.copy(path.join(stagingDir, skill), destPath, { overwrite: true });
-          manifest.installed[skill] = {
-            installedAt: manifest.installed[skill]?.installedAt ?? new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-            installedSourceHash: sourceHash,
-            lastVerifiedInstalledHash: sourceHash,
-            upstreamHash: sourceHash,
-            backupPath: manifest.installed[skill]?.backupPath,
-            owner: 'rabto',
-          };
         }
-        manifest.updatedAt = new Date().toISOString();
-        await fs.writeJson(manifestPath, manifest, { spaces: 2 });
+
+        rollbackState.push({ skill, destPath, backupPath, originalUnmanaged });
+
+        await fs.copy(path.join(stagingDir, skill), destPath, { overwrite: true });
+        
+        // Post-install validation
+        const installedHash = await computeDirectoryChecksum(destPath);
+        if (installedHash !== sourceHash) {
+            throw new Error(`Verification failed for '${skill}': Installed hash does not match staging hash.`);
+        }
+
+        manifest.installed[skill] = {
+          installedAt: manifest.installed[skill]?.installedAt ?? new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          installedSourceHash: sourceHash,
+          lastVerifiedInstalledHash: installedHash,
+          upstreamHash: sourceHash,
+          backupPath: backupPath || manifest.installed[skill]?.backupPath,
+          owner: 'rabto',
+        };
       }
+      
+      manifest.updatedAt = new Date().toISOString();
+      await fs.writeJson(manifestPath, manifest, { spaces: 2 });
     } catch (e: any) {
       console.error(`Install failed: ${e.message}. Rolling back.`);
+      // Rollback
+      for (const state of rollbackState) {
+        if (state.backupPath && await fs.pathExists(state.backupPath)) {
+          // Restore original
+          await fs.remove(state.destPath);
+          await fs.move(state.backupPath, state.destPath);
+        } else {
+          // Dest didn't exist originally
+          await fs.remove(state.destPath);
+        }
+      }
       await fs.remove(stagingDir);
       process.exit(1);
     }
     await fs.remove(stagingDir);
     console.log('Installation complete.');
   });
-
 program
   .command('uninstall')
   .description('Safely uninstall managed Rabto skills')
@@ -208,26 +273,40 @@ program
   .action(async (options) => {
     const targetDir = getTargetDir(options.target, options.scope);
     const manifestPath = path.join(targetDir, '.rabto-manifest.json');
-    if (!(await fs.pathExists(manifestPath))) return;
+    if (!(await fs.pathExists(manifestPath))) {
+      console.log('No Rabto manifest found. Nothing to uninstall.');
+      return;
+    }
 
     const manifest: Manifest = await fs.readJson(manifestPath);
     const toRemove = options.skills ? options.skills.split(',').map((s: string) => s.trim()) : Object.keys(manifest.installed);
 
     for (const skill of toRemove) {
       const entry = manifest.installed[skill];
-      if (!entry || entry.owner !== 'rabto') continue;
+      if (!entry || entry.owner !== 'rabto') {
+        console.warn(`Skill '${skill}' is not managed by Rabto. Skipping.`);
+        continue;
+      }
       
       let destPath: string;
       try {
         destPath = safeJoin(targetDir, skill);
-        if (checkModified(manifest, skill, destPath) && !options.force) {
-          throw new Error(`Skill '${skill}' has been modified locally. Use --force to overwrite.`);
+        if (await fs.pathExists(destPath) && await checkModified(manifest, skill, destPath) && !options.force) {
+          throw new Error(`Skill '${skill}' has been modified locally. Use --force to uninstall.`);
         }
       } catch (e: any) {
-        console.error(e.message);
+        console.error(`Uninstall failed for '${skill}': ${e.message}`);
         process.exit(1);
       }
+      
       if (await fs.pathExists(destPath)) await fs.remove(destPath);
+      
+      // If we originally replaced an unmanaged directory, restore it from backup
+      if (entry.backupPath && await fs.pathExists(entry.backupPath)) {
+        await fs.move(entry.backupPath, destPath);
+        console.log(`Restored original unmanaged folder for '${skill}'.`);
+      }
+      
       delete manifest.installed[skill];
     }
     
@@ -250,13 +329,13 @@ program
     const targetDir = getTargetDir(options.target, options.scope);
     const manifestPath = path.join(targetDir, '.rabto-manifest.json');
     if (!(await fs.pathExists(manifestPath))) {
-      console.error('No manifest found. Nothing to update.');
+      console.error('Update failed: No manifest found. Nothing to update.');
       process.exit(1);
     }
 
-    const remoteRepo = process.env.RABTO_REMOTE_REPO || 'https://github.com/Priyanshuf1/rabto-ai-skills.git';
-    
+    const remoteRepo = process.env.RABTO_REMOTE_REPO || 'https://github.com/Priyanshuf1/rabto.git';
     const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-clone-'));
+    
     console.log(`Fetching updates from ${remoteRepo}...`);
     const r = spawnSync('git', ['clone', '--depth', '1', remoteRepo, cloneDir]);
     if (r.status !== 0) {
@@ -277,6 +356,8 @@ program
     let updatedCount = 0;
 
     const stagingDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-stage-'));
+    const rollbackState: { skill: string; destPath: string; backupPath?: string }[] = [];
+    const manifestSnapshot = JSON.parse(JSON.stringify(manifest));
 
     try {
       const toUpdate = [];
@@ -285,18 +366,14 @@ program
         const upstreamHash = remoteChecksums[skill];
         if (!upstreamHash) continue;
         
-        localEntry.upstreamHash = upstreamHash; // Record the latest known upstream
+        manifest.installed[skill].upstreamHash = upstreamHash;
 
-        // 1. Check if user modified local files
         const destPath = safeJoin(targetDir, skill);
-        const isModified = checkModified(manifest, skill, destPath);
-
-        // 2. Check if an upstream update actually exists compared to what we originally installed
+        const isModified = await checkModified(manifest, skill, destPath);
         const isOutdated = (localEntry.installedSourceHash !== upstreamHash);
 
         if (isOutdated) {
           if (isModified && !options.force) {
-             console.warn(`Update failed: Skill '${skill}' has been modified locally. Use --force to overwrite.`);
              throw new Error(`Skill '${skill}' has been modified locally. Use --force to overwrite.`);
           }
 
@@ -304,19 +381,36 @@ program
           if (!fs.existsSync(sourcePath)) continue;
           
           await fs.copy(sourcePath, path.join(stagingDir, skill));
+          
+          // Verify checksum before applying
+          const stagedHash = await computeDirectoryChecksum(path.join(stagingDir, skill));
+          if (stagedHash !== upstreamHash) {
+             throw new Error(`Checksum mismatch for '${skill}' in remote repo. Expected ${upstreamHash}, got ${stagedHash}`);
+          }
+          
           toUpdate.push({ skill, destPath, remoteHash: upstreamHash });
         }
       }
 
       for (const item of toUpdate) {
+        let backupPath;
         if (await fs.pathExists(item.destPath)) {
-          const backupPath = `${item.destPath}.backup-${Date.now()}`;
+          backupPath = `${item.destPath}.backup-${Date.now()}`;
           await fs.copy(item.destPath, backupPath);
           manifest.installed[item.skill].backupPath = backupPath;
         }
+        
+        rollbackState.push({ skill: item.skill, destPath: item.destPath, backupPath });
+        
         await fs.copy(path.join(stagingDir, item.skill), item.destPath, { overwrite: true });
+        
+        const installedHash = await computeDirectoryChecksum(item.destPath);
+        if (installedHash !== item.remoteHash) {
+            throw new Error(`Verification failed for '${item.skill}': Installed hash does not match staging hash.`);
+        }
+        
         manifest.installed[item.skill].installedSourceHash = item.remoteHash;
-        manifest.installed[item.skill].lastVerifiedInstalledHash = item.remoteHash;
+        manifest.installed[item.skill].lastVerifiedInstalledHash = installedHash;
         manifest.installed[item.skill].updatedAt = new Date().toISOString();
         updatedCount++;
       }
@@ -325,6 +419,15 @@ program
       await fs.writeJson(manifestPath, manifest, { spaces: 2 });
     } catch (e: any) {
       console.error(`Update failed: ${e.message}. Rolling back.`);
+      for (const state of rollbackState) {
+        if (state.backupPath && await fs.pathExists(state.backupPath)) {
+          await fs.remove(state.destPath);
+          await fs.move(state.backupPath, state.destPath);
+        } else {
+          await fs.remove(state.destPath);
+        }
+      }
+      await fs.writeJson(manifestPath, manifestSnapshot, { spaces: 2 }); // Rollback manifest
       await fs.remove(stagingDir);
       await fs.remove(cloneDir);
       process.exit(1);
@@ -342,22 +445,37 @@ program
   .option('-s, --scope <scope>', 'Scope', 'workspace')
   .action(async (options) => {
     const targetDir = getTargetDir(options.target, options.scope);
-    const backupDest = `${targetDir}.backup-${Date.now()}`;
-    if (!(await fs.pathExists(targetDir))) process.exit(1);
-    await fs.copy(targetDir, backupDest);
-    
-    // Write backup manifest
     const manifestPath = path.join(targetDir, '.rabto-manifest.json');
-    let originalManifest = {};
-    if (await fs.pathExists(manifestPath)) originalManifest = await fs.readJson(manifestPath);
+    if (!(await fs.pathExists(manifestPath))) {
+      console.error(`Backup failed: No manifest found in ${targetDir}`);
+      process.exit(1);
+    }
+
+    const manifest: Manifest = await fs.readJson(manifestPath);
+    const backupDest = path.join(path.dirname(targetDir), `.rabto_backup_${Date.now()}`);
+    
+    await fs.ensureDir(backupDest);
+    
+    // Only copy Rabto-managed skills
+    for (const skill of Object.keys(manifest.installed)) {
+      const src = safeJoin(targetDir, skill);
+      if (await fs.pathExists(src)) {
+        await fs.copy(src, path.join(backupDest, skill));
+      }
+    }
+    
+    // Copy the manifest itself
+    await fs.copy(manifestPath, path.join(backupDest, '.rabto-manifest.json'));
     
     const backupManifest = {
       isRabtoBackup: true,
+      formatVersion: '2',
       timestamp: new Date().toISOString(),
-      target: options.target,
-      originalManifest
+      agent: options.target,
+      scope: options.scope,
+      originalManifest: manifest
     };
-    await fs.writeJson(path.join(backupDest, 'backup-manifest.json'), backupManifest, { spaces: 2 });
+    await fs.writeJson(path.join(backupDest, 'backup-metadata.json'), backupManifest, { spaces: 2 });
     console.log(`Backup created at: ${backupDest}`);
   });
 
@@ -367,48 +485,282 @@ program
   .argument('<backup-path>', 'Path to backup directory')
   .option('-t, --target <agent>', 'Target agent', 'antigravity')
   .option('-s, --scope <scope>', 'Scope', 'workspace')
+  .option('-f, --force', 'Force overwrite modified skills')
   .action(async (backupPath: string, options) => {
     const resolvedBackup = path.resolve(backupPath);
-    if (!(await fs.pathExists(resolvedBackup))) process.exit(1);
-    
-    const backupManifestPath = path.join(resolvedBackup, 'backup-manifest.json');
-    if (!(await fs.pathExists(backupManifestPath))) {
-      console.error('Invalid backup: Missing backup-manifest.json');
+    if (!(await fs.pathExists(resolvedBackup))) {
+      console.error(`Restore failed: Backup directory not found at ${resolvedBackup}`);
       process.exit(1);
     }
+    
+    const backupManifestPath = path.join(resolvedBackup, 'backup-metadata.json');
+    if (!(await fs.pathExists(backupManifestPath))) {
+      console.error('Restore failed: Invalid backup: Missing backup-metadata.json');
+      process.exit(1);
+    }
+    
     const backupManifest = await fs.readJson(backupManifestPath);
     if (!backupManifest.isRabtoBackup) {
-      console.error('Invalid backup: Not a valid Rabto backup manifest');
+      console.error('Restore failed: Not a valid Rabto backup manifest');
+      process.exit(1);
+    }
+    
+    if (backupManifest.agent !== options.target || backupManifest.scope !== options.scope) {
+      console.error(`Restore failed: Backup was created for agent='${backupManifest.agent}', scope='${backupManifest.scope}'.`);
       process.exit(1);
     }
     
     const targetDir = getTargetDir(options.target, options.scope);
-    await fs.emptyDir(targetDir);
-    await fs.copy(resolvedBackup, targetDir, { overwrite: true });
-    await fs.remove(path.join(targetDir, 'backup-manifest.json'));
+    const currentManifestPath = path.join(targetDir, '.rabto-manifest.json');
+    
+    let currentManifest: Manifest | null = null;
+    if (await fs.pathExists(currentManifestPath)) {
+      currentManifest = await fs.readJson(currentManifestPath);
+    }
+
+    await fs.ensureDir(targetDir);
+    
+    // Restore only managed skills from the backup
+    const originalManifest = backupManifest.originalManifest as Manifest;
+    for (const skill of Object.keys(originalManifest.installed)) {
+      const src = safeJoin(resolvedBackup, skill);
+      const dest = safeJoin(targetDir, skill);
+      
+      if (await fs.pathExists(src)) {
+        if (await fs.pathExists(dest)) {
+          if (currentManifest && await checkModified(currentManifest, skill, dest) && !options.force) {
+            console.error(`Restore failed: Skill '${skill}' has been modified locally. Use --force to replace.`);
+            process.exit(1);
+          }
+          await fs.remove(dest); // clear it
+        }
+        await fs.copy(src, dest);
+      }
+    }
+    
+    await fs.copy(path.join(resolvedBackup, '.rabto-manifest.json'), currentManifestPath);
     console.log('Restore complete.');
   });
+program
+  .command('list')
+  .description('List all available skills from the registry')
+  .action(async () => {
+    if (!(await fs.pathExists(REGISTRY_PATH))) {
+      console.error(`List failed: Registry not found at ${REGISTRY_PATH}`);
+      process.exit(1);
+    }
+    const registry = await fs.readJson(REGISTRY_PATH);
+    for (const [id, meta] of Object.entries(registry.skills) as any) {
+      console.log(`  ${id.padEnd(40)} [${meta.status ?? 'unknown'}]`);
+    }
+  });
 
-program.command('list').action(async () => {
-  if (!(await fs.pathExists(REGISTRY_PATH))) process.exit(1);
-  const registry = await fs.readJson(REGISTRY_PATH);
-  for (const [id, meta] of Object.entries(registry.skills) as any) {
-    console.log(`  ${id.padEnd(40)} [${meta.status ?? 'unknown'}]`);
-  }
-});
-program.command('demo').action(() => console.log('rabto install --preset cinematic-web'));
-program.command('init').action(async (options) => {
-  const target = options.target || 'antigravity';
-  await fs.writeJson(path.join(process.cwd(), '.rabto.json'), { version: '1', agent: target }, { spaces: 2 });
-});
-program.command('doctor').action(async () => {
-  console.log('All checks passed.');
-});
-program.command('validate').action(async () => {
-  console.log('All checksums valid.');
-});
-program.command('info <skill>').action(async (skill: string) => {
-  console.log(`Skill: ${skill}`);
-});
+program
+  .command('adapters')
+  .description('List supported adapters and their statuses')
+  .option('--json', 'Output as JSON')
+  .action((options) => {
+    const list = Object.entries(ADAPTERS).map(([id, meta]) => ({
+      id,
+      verified: meta.verified,
+      workspaceDestination: meta.path('workspace'),
+      globalDestination: meta.path('global'),
+      note: meta.note || null
+    }));
+
+    if (options.json) {
+      console.log(JSON.stringify(list, null, 2));
+    } else {
+      for (const adapter of list) {
+        console.log(`Adapter: ${adapter.id}`);
+        console.log(`  Verified: ${adapter.verified ? 'Yes' : 'No'}`);
+        console.log(`  Workspace Path: ${adapter.workspaceDestination}`);
+        console.log(`  Global Path: ${adapter.globalDestination}`);
+        if (adapter.note) console.log(`  Note: ${adapter.note}`);
+        console.log();
+      }
+    }
+  });
+
+program
+  .command('init')
+  .description('Initialize a local Rabto configuration')
+  .option('-t, --target <agent>', 'Target agent (e.g. antigravity)')
+  .option('-s, --scope <scope>', 'Installation scope (workspace | global)')
+  .option('-f, --force', 'Force overwrite existing configuration')
+  .action(async (options) => {
+    const target = options.target;
+    const scope = options.scope;
+    
+    if (!target) { console.error('Init failed: --target is required.'); process.exit(1); }
+    if (!scope) { console.error('Init failed: --scope is required.'); process.exit(1); }
+    
+    if (!ADAPTERS[target]) {
+      console.error(`Init failed: Unknown adapter '${target}'. Run 'rabto adapters'.`);
+      process.exit(1);
+    }
+    if (scope !== 'workspace' && scope !== 'global') {
+      console.error(`Init failed: Scope must be 'workspace' or 'global'.`);
+      process.exit(1);
+    }
+
+    const configPath = path.join(process.cwd(), '.rabto.json');
+    if (await fs.pathExists(configPath) && !options.force) {
+      console.error(`Init failed: Configuration already exists at ${configPath}. Use --force to overwrite.`);
+      process.exit(1);
+    }
+
+    await fs.writeJson(configPath, { version: '1', agent: target, scope }, { spaces: 2 });
+    console.log(`Configuration saved to ${configPath}`);
+    console.log(`Target: ${target}, Scope: ${scope}`);
+  });
+
+program
+  .command('doctor')
+  .description('Run system checks for Rabto')
+  .option('-t, --target <agent>', 'Target agent', 'antigravity')
+  .option('-s, --scope <scope>', 'Installation scope', 'workspace')
+  .option('--json', 'Output as JSON')
+  .action(async (options) => {
+    const results: any[] = [];
+    let hasError = false;
+
+    function check(name: string, fn: () => boolean | string, req = true) {
+      let status = 'FAIL';
+      let message = '';
+      try {
+        const r = fn();
+        if (r === true) status = 'PASS';
+        else if (typeof r === 'string') { status = 'PASS'; message = r; }
+      } catch (e: any) {
+        status = req ? 'FAIL' : 'WARN';
+        message = e.message;
+      }
+      results.push({ check: name, status, message });
+      if (status === 'FAIL') hasError = true;
+    }
+
+    check('Node.js Version', () => process.version);
+    check('Rabto Root', () => fs.existsSync(RABTO_ROOT));
+    check('Skills Directory', () => fs.existsSync(SKILLS_DIR));
+    check('Registry Skills', () => fs.existsSync(REGISTRY_PATH));
+    check('Registry Presets', () => fs.existsSync(PRESETS_PATH));
+    check('Registry Checksums', () => fs.existsSync(CHECKSUMS_PATH));
+    check('Target Adapter Recognized', () => !!ADAPTERS[options.target]);
+    
+    if (ADAPTERS[options.target]) {
+        check('Target Path Resolvable', () => !!getTargetDir(options.target, options.scope));
+        const targetDir = getTargetDir(options.target, options.scope);
+        check('Target Path Writable', () => {
+          if (!fs.existsSync(targetDir)) return true;
+          const testFile = path.join(targetDir, '.test-write');
+          fs.writeFileSync(testFile, 'test');
+          fs.unlinkSync(testFile);
+          return true;
+        });
+    }
+
+    check('Git Available', () => spawnSync('git', ['--version']).status === 0);
+
+    if (options.json) {
+      console.log(JSON.stringify(results, null, 2));
+    } else {
+      for (const r of results) {
+        console.log(`[${r.status}] ${r.check} ${r.message ? `- ${r.message}` : ''}`);
+      }
+    }
+
+    process.exit(hasError ? 1 : 0);
+  });
+
+program
+  .command('validate')
+  .description('Validate registry and installed metadata')
+  .option('--registry', 'Validate registry')
+  .option('--installed', 'Validate installed manifest')
+  .option('-t, --target <agent>', 'Target agent', 'antigravity')
+  .option('-s, --scope <scope>', 'Installation scope', 'workspace')
+  .option('--json', 'Output as JSON')
+  .action(async (options) => {
+    let failed = false;
+
+    if (options.registry) {
+      // Basic check
+      if (!fs.existsSync(CHECKSUMS_PATH)) {
+        console.error('Validation failed: Missing registry/checksums.json');
+        failed = true;
+      } else {
+        const checksums = await fs.readJson(CHECKSUMS_PATH);
+        if (Object.keys(checksums).length === 0) {
+          console.error('Validation failed: Checksums file is empty');
+          failed = true;
+        } else {
+           console.log('Registry validation passed.');
+        }
+      }
+    }
+
+    if (options.installed) {
+      const targetDir = getTargetDir(options.target, options.scope);
+      const manifestPath = path.join(targetDir, '.rabto-manifest.json');
+      if (!fs.existsSync(manifestPath)) {
+        console.error('Validation failed: Missing manifest at destination.');
+        failed = true;
+      } else {
+        const manifest = await fs.readJson(manifestPath);
+        for (const skill of Object.keys(manifest.installed)) {
+          const entry = manifest.installed[skill];
+          if (entry.owner !== 'rabto') {
+            console.error(`Validation failed: Skill ${skill} is not owned by rabto.`);
+            failed = true;
+          }
+          const hash = await computeDirectoryChecksum(path.join(targetDir, skill));
+          if (hash !== entry.installedSourceHash && hash !== entry.lastVerifiedInstalledHash) {
+             console.error(`Validation failed: Skill ${skill} hash mismatch. Installed hash differs from manifest.`);
+             failed = true;
+          }
+        }
+        if (!failed) console.log('Installed validation passed.');
+      }
+    }
+
+    if (failed) process.exit(1);
+  });
+
+program
+  .command('info <skill>')
+  .description('Get detailed info about a skill')
+  .option('--json', 'Output as JSON')
+  .action(async (skill: string, options) => {
+    if (!fs.existsSync(REGISTRY_PATH)) {
+      console.error('Info failed: Registry not found.');
+      process.exit(1);
+    }
+    const registry = await fs.readJson(REGISTRY_PATH);
+    const meta = registry.skills[skill];
+    
+    if (!meta) {
+      console.error(`Info failed: Skill '${skill}' not found.`);
+      process.exit(1);
+    }
+
+    if (options.json) {
+      console.log(JSON.stringify(meta, null, 2));
+    } else {
+      console.log(`ID: ${skill}`);
+      console.log(`Name: ${meta.name}`);
+      console.log(`Version: ${meta.version}`);
+      console.log(`Status: ${meta.status}`);
+      console.log(`Description: ${meta.description}`);
+      console.log(`Categories: ${meta.categories?.join(', ')}`);
+      console.log(`Triggers: ${meta.triggers?.join(', ')}`);
+      console.log(`Primary Tools: ${meta.primary_tools?.join(', ')}`);
+      console.log(`Required Inputs: ${meta.minimum_inputs?.join(', ')}`);
+      console.log(`Related Skills: ${meta.related_skills?.join(', ')}`);
+      console.log(`Conflicting Skills: ${meta.conflicting_skills?.join(', ')}`);
+      console.log(`Verification Required: ${meta.verification_required}`);
+      console.log(`Last Reviewed: ${meta.last_reviewed}`);
+    }
+  });
 
 program.parse(process.argv);

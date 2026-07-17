@@ -24,7 +24,7 @@ else
         exit 1
     fi
     echo "Cloning repository to $INSTALL_DIR..."
-    git clone --depth 1 https://github.com/Priyanshuf1/rabto-ai-skills.git "$INSTALL_DIR"
+    git clone --depth 1 https://github.com/Priyanshuf1/rabto.git "$INSTALL_DIR"
 fi
 
 cd "$INSTALL_DIR"

@@ -77,7 +77,7 @@ test.describe('Documentation Site Interactive E2E', () => {
          const bodyText = await page.locator('body').innerText();
          expect(bodyText).not.toContain('404 | Not Found');
          expect(bodyText).not.toContain('PAGE NOT FOUND');
-         expect(page.url()).toContain('/rabto-ai-skills/');
+         expect(page.url()).toContain('/rabto/');
       }
     }
 

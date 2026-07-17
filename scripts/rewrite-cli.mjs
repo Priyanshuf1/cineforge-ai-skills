@@ -257,7 +257,7 @@ program
       process.exit(1);
     }
 
-    const remoteRepo = process.env.RABTO_REMOTE_REPO || 'https://github.com/Priyanshuf1/rabto-ai-skills.git';
+    const remoteRepo = process.env.RABTO_REMOTE_REPO || 'https://github.com/Priyanshuf1/rabto.git';
     
     const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), 'rabto-clone-'));
     console.log(\`Fetching updates from \${remoteRepo}...\`);

@@ -1,12 +1,12 @@
-import fs from 'fs-extra';
-import path from 'path';
-import crypto from 'crypto';
+import * as crypto from 'crypto';
+import * as fs from 'fs-extra';
+import * as path from 'path';
 
-const SKILLS_DIR = path.join(process.cwd(), 'skills');
-const REGISTRY_DIR = path.join(process.cwd(), 'registry');
-const CHECKSUMS_PATH = path.join(REGISTRY_DIR, 'checksums.json');
-
-async function hashDir(dirPath) {
+/**
+ * Computes a deterministic SHA-256 hash of a directory's contents.
+ * Normalizes paths, ignores symlinks that escape, and deterministically sorts.
+ */
+export async function computeDirectoryChecksum(dirPath: string): Promise<string> {
   const hash = crypto.createHash('sha256');
   
   if (!(await fs.pathExists(dirPath))) {
@@ -35,8 +35,8 @@ async function hashDir(dirPath) {
   return hash.digest('hex');
 }
 
-async function walk(currentDir, rootDir) {
-  let results = [];
+async function walk(currentDir: string, rootDir: string): Promise<{ relativePath: string; fullPath: string }[]> {
+  let results: { relativePath: string; fullPath: string }[] = [];
   
   const entries = await fs.readdir(currentDir, { withFileTypes: true });
   for (const entry of entries) {
@@ -54,21 +54,3 @@ async function walk(currentDir, rootDir) {
   
   return results;
 }
-
-async function run() {
-  const skills = await fs.readdir(SKILLS_DIR);
-  const checksums = {};
-  
-  for (const skill of skills) {
-    const skillPath = path.join(SKILLS_DIR, skill);
-    if (!(await fs.stat(skillPath)).isDirectory()) continue;
-    
-    checksums[skill] = await hashDir(skillPath);
-  }
-  
-  await fs.ensureDir(REGISTRY_DIR);
-  await fs.writeJson(CHECKSUMS_PATH, checksums, { spaces: 2 });
-  console.log('Done generating checksums.json.');
-}
-
-run().catch(console.error);

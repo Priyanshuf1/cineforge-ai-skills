@@ -27,7 +27,7 @@ if ($env:RABTO_SOURCE_DIR) {
         exit 1
     }
     Write-Host "Cloning repository to $InstallDir..."
-    git clone --depth 1 https://github.com/Priyanshuf1/rabto-ai-skills.git $InstallDir
+    git clone --depth 1 https://github.com/Priyanshuf1/rabto.git $InstallDir
 }
 
 Set-Location $InstallDir

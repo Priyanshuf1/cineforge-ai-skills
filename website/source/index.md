@@ -10,7 +10,7 @@ hero:
       link: /guide/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/Priyanshuf1/rabto-ai-skills
+      link: https://github.com/Priyanshuf1/rabto
 features:
   - title: 33 Canonical Skills
     details: Cross-platform installable rules and knowledge bases.
