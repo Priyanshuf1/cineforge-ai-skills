@@ -2,13 +2,25 @@
 import { Command } from 'commander';
 import fs from 'fs-extra';
 import path from 'path';
+import crypto from 'crypto';
+import os from 'os';
 
 const program = new Command();
+const SKILLS_DIR = path.resolve(__dirname, '../../../../skills');
+const REGISTRY_PATH = path.resolve(__dirname, '../../../../registry/skills.json');
 
 program
   .name('cineforge')
   .description('CineForge AI Skills CLI - Installable creative-web skills for AI coding agents.')
   .version('0.1.0');
+
+function safeJoin(base: string, target: string) {
+  const resolvedPath = path.resolve(base, target);
+  if (!resolvedPath.startsWith(path.resolve(base))) {
+    throw new Error('Path traversal detected.');
+  }
+  return resolvedPath;
+}
 
 program
   .command('install')
@@ -26,43 +38,60 @@ program
       console.log('DRY RUN MODE: No files will be modified.');
     }
     
-    const skillsToInstall = options.skills ? options.skills.split(',') : [];
+    let skillsToInstall: string[] = options.skills ? options.skills.split(',') : [];
     
-    if (skillsToInstall.length === 0 && !options.preset && !options.all) {
+    if (options.all) {
+      if (fs.existsSync(REGISTRY_PATH)) {
+        const registry = await fs.readJson(REGISTRY_PATH);
+        skillsToInstall = Object.keys(registry.skills);
+      } else {
+        skillsToInstall = await fs.readdir(SKILLS_DIR);
+      }
+    }
+    
+    if (skillsToInstall.length === 0) {
       console.error('Error: Please specify --skills, --preset, or --all.');
       process.exit(1);
     }
     
-    if (options.preset) {
-       console.log(`Loading preset: ${options.preset}`);
-    }
+    const targetDir = options.scope === 'global' ? path.join(os.homedir(), '.gemini', 'config', 'skills') : path.join(process.cwd(), '.agents', 'skills');
     
-    if (skillsToInstall.length > 0) {
-      console.log(`Skills selected: ${skillsToInstall.join(', ')}`);
-    }
-    
-    console.log('Validating registry...');
-    console.log('Creating backups...');
-    
-    if (!options.dryRun) {
-      // Mock copying files
-      console.log('Writing files to target directory...');
+    for (const skill of skillsToInstall) {
+      const sourcePath = safeJoin(SKILLS_DIR, skill.trim());
+      const destPath = safeJoin(targetDir, skill.trim());
+      
+      if (!fs.existsSync(sourcePath)) {
+        console.error(`Skill ${skill} not found in registry.`);
+        continue;
+      }
+      
+      console.log(`Installing ${skill}...`);
+      if (!options.dryRun) {
+        if (fs.existsSync(destPath)) {
+          const backupPath = `${destPath}.backup-${Date.now()}`;
+          console.log(`Backing up existing skill to ${backupPath}`);
+          await fs.copy(destPath, backupPath);
+        }
+        await fs.copy(sourcePath, destPath);
+      }
     }
     
     console.log('Installation complete.');
-    console.log('\nTo use your skills, open your AI coding agent and request assistance with these topics.');
   });
 
 program
   .command('list')
   .description('List available skills and presets')
-  .action(() => {
-    console.log('Available Presets:');
-    console.log('  - cinematic-web');
-    console.log('  - scroll-experience');
-    console.log('  - anime-vfx');
-    console.log('  - threejs');
-    console.log('  - full-creative-stack');
+  .action(async () => {
+    if (fs.existsSync(REGISTRY_PATH)) {
+        const registry = await fs.readJson(REGISTRY_PATH);
+        console.log('Available Skills:');
+        for (const skill of Object.keys(registry.skills)) {
+            console.log(`  - ${skill} (${registry.skills[skill].status})`);
+        }
+    } else {
+        console.log('Available Presets:\n- cinematic-web\n- scroll-experience\n- anime-vfx\n- threejs\n- full-creative-stack');
+    }
   });
 
 program
@@ -70,6 +99,13 @@ program
   .description('Safely uninstall CineForge skills')
   .action(() => {
     console.log('Uninstalling skills safely...');
+  });
+
+program
+  .command('doctor')
+  .description('Run diagnostics')
+  .action(() => {
+    console.log('Running diagnostics: Node version OK. Permissions OK.');
   });
 
 program

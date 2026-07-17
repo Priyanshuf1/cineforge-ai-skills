@@ -9,5 +9,10 @@
   "devDependencies": {
     "@types/node": "^20.12.7",
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "ajv": "^6.15.0",
+    "glob": "^7.2.3",
+    "js-yaml": "^4.3.0"
   }
 }

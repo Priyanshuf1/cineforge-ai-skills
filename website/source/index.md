@@ -10,7 +10,7 @@ hero:
       link: /guide/
     - theme: alt
       text: View on GitHub
-      link: https://github.com/apriy/cineforge-ai-skills
+      link: https://github.com/Priyanshuf1/cineforge-ai-skills
 features:
   - title: 33 Canonical Skills
     details: Cross-platform installable rules and knowledge bases.

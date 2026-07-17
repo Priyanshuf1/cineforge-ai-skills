@@ -18,7 +18,7 @@ export default defineConfig({
       }
     ],
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/apriy/cineforge-ai-skills' }
+      { icon: 'github', link: 'https://github.com/Priyanshuf1/cineforge-ai-skills' }
     ]
   }
 })
