@@ -1,0 +1,29 @@
+{
+  "name": "cineforge-ai-skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Installable creative-web skills for AI coding agents — GSAP, Three.js, WebGL, PixiJS, cinematic typography, scroll experiences, shaders and VFX.",
+  "workspaces": [
+    "packages/*",
+    "website"
+  ],
+  "scripts": {
+    "setup": "npm run build --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "build": "npm run build --workspaces",
+    "test:installer": "node scripts/verify-adapters.mjs",
+    "validate:registry": "node scripts/validate-skills.mjs"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "",
+  "license": "MIT"
+}

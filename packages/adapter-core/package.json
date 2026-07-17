@@ -1,0 +1,13 @@
+{
+  "name": "@cineforge/adapter-core",
+  "version": "0.1.0",
+  "description": "Core adapter logic for CineForge",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}

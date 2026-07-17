@@ -1,0 +1,1 @@
+// Process skill - follow the SKILL.md template strictly.

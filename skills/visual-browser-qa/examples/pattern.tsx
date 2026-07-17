@@ -1,0 +1,1 @@
+// Terminal: npx playwright test --project=chromium --headed (For automated visual regression)

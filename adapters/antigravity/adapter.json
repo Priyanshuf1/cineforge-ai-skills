@@ -1,0 +1,6 @@
+{
+  "name": "Antigravity",
+  "globalPath": "~/.gemini/config/skills",
+  "workspacePath": ".agents/skills",
+  "format": "SKILL.md directory"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "cineforge-website",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "docs:dev": "vitepress dev source",
+    "docs:build": "vitepress build source",
+    "docs:preview": "vitepress preview source"
+  },
+  "devDependencies": {
+    "vitepress": "^1.2.2",
+    "vue": "^3.4.27"
+  }
+}

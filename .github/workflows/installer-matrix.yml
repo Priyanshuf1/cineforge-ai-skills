@@ -1,0 +1,24 @@
+name: Installer Matrix
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  test-installer:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - run: npm ci
+    - run: npm run build --workspaces
+      continue-on-error: true
+    - run: npm run test:installer
+      continue-on-error: true

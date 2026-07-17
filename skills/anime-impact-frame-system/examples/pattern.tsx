@@ -1,0 +1,1 @@
+// Trigger a global impact flash via a central store or context.

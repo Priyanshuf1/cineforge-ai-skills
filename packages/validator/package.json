@@ -1,0 +1,13 @@
+{
+  "name": "@cineforge/validator",
+  "version": "0.1.0",
+  "description": "Validator for CineForge Skills",
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  }
+}
